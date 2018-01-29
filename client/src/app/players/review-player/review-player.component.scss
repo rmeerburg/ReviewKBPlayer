@@ -1,0 +1,23 @@
+.title {
+    margin: 8px;
+}
+
+.mat-tab-list {
+    .mat-tab-label {
+    //   @media only screen and (min-width: 900px) {
+        flex-basis: 0;
+        flex-grow: 1;
+        padding: 0;
+    //   }
+    }
+  }
+
+  .rating-options {
+      display: flex;
+      flex-direction: column;
+
+      button {
+          margin: 8px;
+          min-height: 56px;
+      }
+  }

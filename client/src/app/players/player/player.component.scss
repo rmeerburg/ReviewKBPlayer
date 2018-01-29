@@ -1,0 +1,97 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+}
+
+.profile-header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    background-color: #03a9f4;
+    padding-bottom: 8px;
+    
+    .profile-picture {
+        margin:16px;
+        border-radius: 50%;
+        margin-right: 16px;
+    }
+
+    .profile-data {
+        color: white;
+        text-align: center;
+
+        .profile-name {
+            font-size: 21px;
+        
+        }
+        
+        .profile-email {
+        
+        }
+    }
+
+    // &:before {
+    //     content: "";
+    //     position: fixed;
+    //     left: 0;
+    //     right: 0;
+    //     z-index: -1;
+        
+    //     display: block;
+    //     background-image: url('https://hetstreeknieuws.nl/wp-content/uploads/2017/10/Korfbal-Algemeen-Het-Streeknieuws-600x400.jpg');
+    //     width: 100vh;
+    //     height: 200px;
+        
+    //     -webkit-filter: blur(5px);
+    //     -moz-filter: blur(5px);
+    //     -o-filter: blur(5px);
+    //     -ms-filter: blur(5px);
+    //     filter: blur(5px);
+    // }
+}
+
+.player-details {
+    .mat-tab-list {
+        .mat-tab-label {
+            flex-basis: 0;
+            flex-grow: 1;
+            padding: 0;
+        }
+      }
+
+      .player-details-tab {
+
+        padding-left: 16px;
+        padding-right: 16px;
+
+          .player-detail {
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+          }
+
+          .player-history {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-around;
+
+              .event {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+
+                  .team {
+                    font-weight: bold;
+                  }
+
+                  .date {
+                      font-size: 11px;
+                      color: grey;
+                      margin-top: 4px;
+                  }
+              }
+          }
+      }
+}
