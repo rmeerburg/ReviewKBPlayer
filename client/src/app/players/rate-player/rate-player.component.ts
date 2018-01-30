@@ -18,7 +18,7 @@ export class RatePlayerComponent implements OnInit {
   };
 
   public ngOnInit() {
-    this.review = this.ratingService.createEmptyRating('D');
+    this.review = this.ratingService.createnewReview('D');
     this.currentCat = this.review.categories[0];
   }
 
@@ -41,6 +41,6 @@ export class RatePlayerComponent implements OnInit {
   }
 
   public submitReview() {
-    
+
   }
 }

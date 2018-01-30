@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { RatingService } from 'app/services/rating.service';
+import { PlayersService, Player } from 'app/services/players.service';
 
 @Component({
   selector: 'app-player',
@@ -7,21 +9,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  public player = {
-    name: null,
-    team: 'F2',
-    history: [
-      {
-        date: '01-02-2017',
-        changedAttribute: 'teamMove',
-        oldValue: 'F3',
-        newValue: 'F2'
-      }
-    ],
-    avatar: null,
-    dob: null,
-    email: null,
-  }
+  public player: Player;
 
   public chartOptions = {
     maintainAspectRatio: false,
@@ -34,12 +22,11 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  public radarChartLabels:string[] = ['Aanvallen', 'Verdedigen', 'Scoren', 'Teamspel', 'Tactiek'];
+  public radarChartLabels:ReadonlyArray<string>;// = ['Aanvallen', 'Verdedigen', 'Scoren', 'Teamspel', 'Tactiek'];
  
   public radarChartData:any = [
-    // {data: [3, 2, 2, 4, 1,], label: '2015'},
-    {data: [3, 3, 2, 5, 2,], label: '2016'},
-    {data: [4, 2, 4, 5, 3,], label: '2017'}
+    {data: [3, 3, 2, 5, 2, 3,], label: '2016'},
+    {data: [4, 2, 4, 5, 3, 3,], label: '2017'}
   ];
   public radarChartType:string = 'radar';
  
@@ -53,15 +40,14 @@ export class PlayerComponent implements OnInit {
   }
 
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService) { }
 
-  ngOnInit() {
-    const avatar = this.http.get('https://randomuser.me/api/1.1/?randomapi').subscribe(data => {
-      const anyData = (<any>data).results[0];
-      this.player.avatar = anyData.picture.large;
-      this.player.name = `${anyData.name.first} ${anyData.name.last}`;
-      this.player.dob = anyData.dob;
-      this.player.email = anyData.email;
-    });
+  async ngOnInit() {
+    this.radarChartData = [
+      { data: Array.from(Array(6).keys()).map(_ => Math.floor(Math.random() * Math.floor(5)) + 1), label: '2016', },
+      { data: Array.from(Array(6).keys()).map(_ => Math.floor(Math.random() * Math.floor(5)) + 1), label: '2017', },
+    ];
+    this.player = await this.playerService.getPlayer('foo');
+    this.radarChartLabels = this.ratingService.categories;
   }
 }

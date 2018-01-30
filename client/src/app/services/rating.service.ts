@@ -11,9 +11,9 @@ export class RatingService {
         "A": 10,
     };
 
-    private categories = ['Aanvallen', 'Technisch', 'Fysiek', 'Verdedigen', 'Mentaal', 'Tactisch'];
+    public readonly categories: ReadonlyArray<string> = ['Aanvallen', 'Technisch', 'Fysiek', 'Verdedigen', 'Mentaal', 'Tactisch'];
 
-    createEmptyRating(bracket: string) {
+    createnewReview(bracket: string) {
         var rating = new Review();
         rating.categories = this.categories.map(cat => new Category(this.scoringMapping[bracket], cat));
         return rating;

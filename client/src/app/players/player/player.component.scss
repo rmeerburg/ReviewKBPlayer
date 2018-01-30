@@ -13,6 +13,7 @@
     padding-bottom: 8px;
     
     .profile-picture {
+        box-shadow: white 0px 0px 48px;
         margin:16px;
         border-radius: 50%;
         margin-right: 16px;
@@ -31,25 +32,6 @@
         
         }
     }
-
-    // &:before {
-    //     content: "";
-    //     position: fixed;
-    //     left: 0;
-    //     right: 0;
-    //     z-index: -1;
-        
-    //     display: block;
-    //     background-image: url('https://hetstreeknieuws.nl/wp-content/uploads/2017/10/Korfbal-Algemeen-Het-Streeknieuws-600x400.jpg');
-    //     width: 100vh;
-    //     height: 200px;
-        
-    //     -webkit-filter: blur(5px);
-    //     -moz-filter: blur(5px);
-    //     -o-filter: blur(5px);
-    //     -ms-filter: blur(5px);
-    //     filter: blur(5px);
-    // }
 }
 
 .player-details {
