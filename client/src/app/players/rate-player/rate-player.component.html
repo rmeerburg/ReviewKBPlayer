@@ -1,0 +1,34 @@
+<div class="title">Beoordeling voor speler {{player.name}}</div>
+
+<mat-accordion class="example-headers-align">
+  <mat-expansion-panel *ngFor="let cat of review.categories" hideToggle="true" [expanded]="cat === currentCat" (opened)=setCurrentCat(cat)>
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{cat.name}}</mat-panel-title>
+      <mat-panel-description>
+        <div class="category-header">
+          <span *ngIf="!cat.score" class="no-score">Niet beoordeeld</span>
+          <span *ngIf="cat.score">{{cat.score}}</span>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="rating-options">
+      <button *ngFor="let rating of cat.ratings" mat-raised-button color="accent" [class.selected]="rating === cat.selectedRating" (click)="rate(cat, rating)">{{rating.description}}</button>
+    </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel hideToggle="true" [expanded]="currentCat === null" (opened)=setCurrentCat(cat)>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Notities</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-form-field class="notes">
+      <textarea [(ngModel)]="review.notes" matInput matTextareaAutosize placeholder="Voeg een notitie toe"></textarea>
+    </mat-form-field>
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div class="submit-review">
+  <button mat-raised-button color="primary" [disabled]="!canSubmit()">Opslaan</button>
+</div>

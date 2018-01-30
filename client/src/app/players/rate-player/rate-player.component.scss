@@ -1,0 +1,50 @@
+.title {
+    margin: 8px;
+}
+
+  .rating-options {
+      display: flex;
+      flex-direction: column;
+
+      button {
+          margin: 8px;
+          min-height: 48px;
+      }
+  }
+
+  .selected {
+      background-color: greenyellow !important;
+  }
+
+  .submit-review {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 24px;
+
+      button {
+          min-height: 48px;
+      }
+  }
+
+  .category-header {
+      display: flex;
+
+      .no-score {
+        font-style:italic;
+      }
+  }
+
+  .notes {
+    width: 100%;
+  }
+
+.example-headers-align .mat-expansion-panel-header-title, 
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 1;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-grow: 0;
+}
+

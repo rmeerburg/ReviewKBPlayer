@@ -13,7 +13,8 @@ $dark-theme: mat-dark-theme($primary, $accent, $warn);
 
 // @font-face {  src: url("./assets/fonts/Roboto-Regular.tff"); }
 
-body {
+html, body {
     margin: 0;
     font-family: "Roboto";
+    height: 100%;
 }
