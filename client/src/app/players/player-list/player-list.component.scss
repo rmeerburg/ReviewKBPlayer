@@ -1,0 +1,34 @@
+.filter-box {
+    mat-form-field {
+        width: 100%;
+    }
+    margin-left: 28px;
+    margin-right: 28px;
+    margin-top: 8px;
+
+    .search-icon {
+        color: grey;
+    }
+}
+
+.player-item-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    
+    .player-profile-name {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 18px;
+        
+        img {
+            border-radius: 50%;
+            margin-right: 24px;
+        }
+    }
+
+}

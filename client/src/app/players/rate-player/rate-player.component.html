@@ -17,7 +17,7 @@
     </div>
   </mat-expansion-panel>
 
-  <mat-expansion-panel hideToggle="true" [expanded]="currentCat === null" (opened)=setCurrentCat(cat)>
+  <mat-expansion-panel hideToggle="true" (opened)=setCurrentCat(cat)>
     <mat-expansion-panel-header>
       <mat-panel-title>Notities</mat-panel-title>
     </mat-expansion-panel-header>
@@ -30,5 +30,5 @@
 </mat-accordion>
 
 <div class="submit-review">
-  <button mat-raised-button color="primary" [disabled]="!canSubmit()">Opslaan</button>
+  <button mat-raised-button color="primary" [disabled]="!canSubmit()" routerLink="/players/1">Opslaan</button>
 </div>

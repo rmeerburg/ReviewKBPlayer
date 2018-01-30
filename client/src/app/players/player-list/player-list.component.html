@@ -1,0 +1,36 @@
+<mat-tab-group selectedIndex="1" mat-stretch-tabs>
+  <mat-tab label="Spelers">
+    <div class="filter-box">
+      <mat-form-field>
+        <input [(ngModel)]="filterTerm" matInput placeholder="Filteren" (keyup)="filter()" />
+      </mat-form-field>
+    </div>
+
+    <mat-nav-list>
+      <mat-list-item *ngFor="let player of players" routerLink="/players/1">
+        <div class="player-item-content">
+          <div class="player-profile-name">
+            <img [src]="player.thumbnail" height="40" width="40" />
+            <span>{{player.fullName}}</span>
+          </div>
+          <span>{{player.team}}</span>
+        </div>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-tab>
+  <mat-tab label="Teams">
+    <mat-nav-list>
+      <ng-container *ngFor="let team of teams">
+        <h3 mat-subheader>Team {{team.id}}</h3>
+        <mat-list-item *ngFor="let player of team.players" routerLink="/players">
+          <div class="player-item-content">
+            <div class="player-profile-name">
+              <img [src]="player.thumbnail" height="40" width="40" />
+              <span>{{player.fullName}}</span>
+            </div>
+          </div>
+        </mat-list-item>
+      </ng-container>
+    </mat-nav-list>
+  </mat-tab>
+</mat-tab-group>

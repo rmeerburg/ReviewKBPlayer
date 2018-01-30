@@ -39,4 +39,8 @@ export class RatePlayerComponent implements OnInit {
   public canSubmit() {
     return !this.review.categories.some(cat => cat.selectedRating === undefined);
   }
+
+  public submitReview() {
+    
+  }
 }
