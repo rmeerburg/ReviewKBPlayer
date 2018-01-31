@@ -9,5 +9,7 @@ namespace Server.Models
         public Player Player { get; set; }
         public Guid TeamId { get; set; }
         public Team Team { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

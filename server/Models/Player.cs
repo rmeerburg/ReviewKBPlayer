@@ -7,6 +7,8 @@ namespace Server.Models
     {
         public Guid PlayerId { get; set; }
 
+        public string Name { get; set; }
+
         public ICollection<TeamParticipation> Participations { get; set; }
         public ICollection<Review> Reviews { get; set; }
     }

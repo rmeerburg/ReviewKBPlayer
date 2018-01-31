@@ -29,17 +29,39 @@ namespace server
             services.AddDbContext<KbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddCors(options => {
+                options.AddPolicy("defaultPolicy", policy => {
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyOrigin();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            // {
+            //     var dbContext = scope.ServiceProvider.GetService<KbContext>();
+            //     await dbContext.EnsureSeeded();
+            //     // if (!scope.ServiceProvider.GetService<KbContext>().AllMigrationsApplied())
+            //     // {
+            //     //     .Database.Migrate();
+            //     //     scope.ServiceProvider.GetService<KbContext>().EnsureSeeded();
+            //     // }
+            // }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
 
+            app.UseStaticFiles();
             app.UseMvc();
+            app.UseCors("defaultPolicy");
         }
     }
 }
