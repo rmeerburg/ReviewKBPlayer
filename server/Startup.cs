@@ -37,21 +37,13 @@ namespace server
                     policy.AllowAnyOrigin();
                 });
             });
+
+            // services.AddTransient<Initializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env/*, Initializer initializer*/)
         {
-            // using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            // {
-            //     var dbContext = scope.ServiceProvider.GetService<KbContext>();
-            //     await dbContext.EnsureSeeded();
-            //     // if (!scope.ServiceProvider.GetService<KbContext>().AllMigrationsApplied())
-            //     // {
-            //     //     .Database.Migrate();
-            //     //     scope.ServiceProvider.GetService<KbContext>().EnsureSeeded();
-            //     // }
-            // }
 
             if (env.IsDevelopment())
             {
@@ -62,6 +54,12 @@ namespace server
             app.UseStaticFiles();
             app.UseMvc();
             app.UseCors("defaultPolicy");
+
+            // using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            // {
+            //     var dbContext = scope.ServiceProvider.GetService<KbContext>();
+            //     await dbContext.EnsureSeeded();
+            // }
         }
     }
 }

@@ -41,15 +41,13 @@ namespace server.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<Guid?>("ReviewId");
-
                     b.Property<int>("Score");
+
+                    b.Property<string>("ShortDescription");
 
                     b.HasKey("LevelId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("ReviewId");
 
                     b.ToTable("Levels");
                 });
@@ -64,6 +62,24 @@ namespace server.Migrations
                     b.HasKey("PlayerId");
 
                     b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("Server.Models.Rating", b =>
+                {
+                    b.Property<Guid>("RatingId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("LevelId");
+
+                    b.Property<Guid>("ReviewId");
+
+                    b.HasKey("RatingId");
+
+                    b.HasIndex("LevelId");
+
+                    b.HasIndex("ReviewId");
+
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("Server.Models.Review", b =>
@@ -142,10 +158,19 @@ namespace server.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.HasOne("Server.Models.Review")
-                        .WithMany("Levels")
-                        .HasForeignKey("ReviewId");
+            modelBuilder.Entity("Server.Models.Rating", b =>
+                {
+                    b.HasOne("Server.Models.Level", "Level")
+                        .WithMany()
+                        .HasForeignKey("LevelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Server.Models.Review", "Review")
+                        .WithMany("Ratings")
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Server.Models.Review", b =>

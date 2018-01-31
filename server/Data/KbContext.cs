@@ -2,6 +2,7 @@ using System;
 using Server.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Server.Data
 {
@@ -18,35 +19,38 @@ namespace Server.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
         public DbSet<TeamParticipation> TeamParticipations { get; set; }
 
-        // public async Task EnsureSeeded()
-        // {
-        //     Season newSeason = null;
-        //     Player newPlayer = null;
-        //     Team newTeam = null;
+        public async Task EnsureSeeded()
+        {
+            if (Ratings.Any())
+                return;
 
-        //     if (!await Seasons.AnyAsync())
-        //     {
-        //         Seasons.Add(newSeason = new Season { Description = "Season 17/18", StartDate = new DateTime(2017, 8, 1), EndDate = new DateTime(2018, 3, 31), });
-        //     }
+            Season newSeason = null;
+            Player newPlayer = null;
+            Team newTeam = null;
 
-        //     if (!await Players.AnyAsync())
-        //     {
-        //         Players.Add(newPlayer = new Player { Name = "Piet", });
-        //     }
+            Seasons.Add(newSeason = new Season { Description = "Season 17/18", StartDate = new DateTime(2017, 8, 1), EndDate = new DateTime(2018, 3, 31), });
+            Players.Add(newPlayer = new Player { Name = "Piet", });
+            Teams.Add(newTeam = new Team { Name = "A2", SeasonId = newSeason.SeasonId, });
+            TeamParticipations.Add(new TeamParticipation { PlayerId = newPlayer.PlayerId, TeamId = newTeam.TeamId, StartDate = DateTime.Today, });
+            var newCategories = new[] { "Aanvallen", "Verdedigen", "Tactisch", "Technisch", "Fysiek", "Mentaal", }.Select(cat => new Category { Description = cat, }).ToList();
+            await Categories.AddRangeAsync(newCategories);
 
-        //     if (!await Teams.AnyAsync())
-        //     {
-        //         Teams.Add(newTeam = new Team { Name = "A2", SeasonId = newSeason.SeasonId, });
-        //     }
+            var levels = new string[] { "Slecht", "Zwak", "Gemiddeld", "Goed", "Uitmuntend", };
 
-        //     if (!await TeamParticipations.AnyAsync())
-        //     {
-        //         TeamParticipations.Add(new TeamParticipation { PlayerId = newPlayer.PlayerId, TeamId = newTeam.TeamId, StartDate = DateTime.Today, });
-        //     }
+            int i;
+            foreach (var cat in newCategories)
+            {
+                i = 1;
+                foreach (var lvl in levels)
+                {
+                    Levels.Add(new Level { CategoryId = cat.CategoryId, Description = lvl, Score = i++ });
+                }
+            }
 
-        //     await this.SaveChangesAsync();
-        // }
+            await this.SaveChangesAsync();
+        }
     }
 }
