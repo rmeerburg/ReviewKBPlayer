@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Server.Data;
+using Server.Models;
 using System;
 
 namespace server.Migrations
@@ -57,7 +58,13 @@ namespace server.Migrations
                     b.Property<Guid>("PlayerId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Dob");
+
+                    b.Property<int>("Gender");
+
                     b.Property<string>("Name");
+
+                    b.Property<string>("RegistratiodId");
 
                     b.HasKey("PlayerId");
 

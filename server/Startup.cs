@@ -55,11 +55,11 @@ namespace server
             app.UseMvc();
             app.UseCors("defaultPolicy");
 
-            // using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            // {
-            //     var dbContext = scope.ServiceProvider.GetService<KbContext>();
-            //     await dbContext.EnsureSeeded();
-            // }
+            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<KbContext>();
+                await dbContext.EnsureSeeded();
+            }
         }
     }
 }

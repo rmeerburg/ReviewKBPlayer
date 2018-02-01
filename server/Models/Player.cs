@@ -7,9 +7,20 @@ namespace Server.Models
     {
         public Guid PlayerId { get; set; }
 
+        public string RegistratiodId { get; set; }
         public string Name { get; set; }
+        public DateTime Dob { get; set; }
+        public Gender Gender { get; set; }
 
         public ICollection<TeamParticipation> Participations { get; set; }
         public ICollection<Review> Reviews { get; set; }
+    }
+
+    public enum Gender
+    {
+        Unknown,
+        Other,
+        Male,
+        Female,
     }
 }
