@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Server.Data;
 using Server.Models;
 
 namespace server.Controllers
 {
-    [Route("api/[controller]")]
     public class PlayersController : Controller
     {
         private readonly KbContext _context;
@@ -19,11 +19,14 @@ namespace server.Controllers
         }
 
         // GET api/values
-        [HttpGet]
-        public IEnumerable<Player> Get() => _context.Players;
+        [HttpGet("api/players")]
+        public IEnumerable<object> Get()
+        {
+            return _context.Players.Include(p => p.Participations).ThenInclude(p => p.Team);// .Select(p => new { p, participations = p.Participations.Select(pt => new { pt.Team.Name, pt.StartDate }), });
+        } 
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public Player Get(Guid id) =>  _context.Players.FirstOrDefault(p => p.PlayerId == id);
+        [HttpGet("api/players/{id}")]
+        public Player Get(string id) =>  _context.Players.Include(p => p.Participations).ThenInclude(p => p.Team).FirstOrDefault(p => p.RegistratiodId == id);
     }
 }

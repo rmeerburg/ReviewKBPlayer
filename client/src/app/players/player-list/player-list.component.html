@@ -7,13 +7,14 @@
     </div>
 
     <mat-nav-list>
-      <mat-list-item *ngFor="let player of players" routerLink="/players/1">
+      <mat-list-item *ngFor="let player of players" [routerLink]="[player.registratiodId]">
         <div class="player-item-content">
           <div class="player-profile-name">
-            <img [src]="player.thumbnail" height="40" width="40" />
-            <span>{{player.fullName}}</span>
+            <!-- <img [src]="player.thumbnail" height="40" width="40" /> -->
+            <span>{{player.name}}</span>
           </div>
-          <span>{{player.team}}</span>
+          <span class="player-additional-text" *ngIf="player.participations.length">{{player.participations[0].team.name}}</span>
+          <span class="player-additional-text" *ngIf="!player.participations.length">Geen team</span>
         </div>
       </mat-list-item>
     </mat-nav-list>
@@ -21,12 +22,12 @@
   <mat-tab label="Teams">
     <mat-nav-list>
       <ng-container *ngFor="let team of teams">
-        <h3 mat-subheader>Team {{team.id}}</h3>
-        <mat-list-item *ngFor="let player of team.players" routerLink="/players/1">
+        <h3 mat-subheader>Team {{team.name}}</h3>
+        <mat-list-item *ngFor="let player of team.players" [routerLink]="['players', player.registratiodId]">
           <div class="player-item-content">
             <div class="player-profile-name">
-              <img [src]="player.thumbnail" height="40" width="40" />
-              <span>{{player.fullName}}</span>
+              <!-- <img [src]="player.thumbnail" height="40" width="40" /> -->
+              <span>{{player.name}}</span>
             </div>
           </div>
         </mat-list-item>

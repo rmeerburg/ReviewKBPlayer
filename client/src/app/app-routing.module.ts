@@ -7,6 +7,6 @@ export const appRoutes: Routes = [
     { path: 'players', component: PlayerListComponent, },
     { path: 'players/:id', component: PlayerComponent, },
     { path: 'players/:id/review', component: RatePlayerComponent },
-    { path: '', redirectTo: '/heroes', pathMatch: 'full' }
+    { path: '', redirectTo: '/players', pathMatch: 'full' }
     // { path: '**', component: PageNotFoundComponent }
 ];

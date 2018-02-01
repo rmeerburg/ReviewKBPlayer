@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Player, PlayersService } from 'app/services/players.service';
+import { Player, PlayersService, Team } from 'app/services/players.service';
 
 
 @Component({
@@ -13,36 +13,45 @@ export class PlayerListComponent implements OnInit {
   public players: Player[] = [];
   private allPlayers: Player[] = [];
 
-  public teams: any;
+  public teams: TeamVm[];
 
   constructor(private readonly playerService: PlayersService) { }
 
   public async ngOnInit() {
-    this.allPlayers = this.players = await this.playerService.getPlayers();
-
-    this.teams = this.allPlayers.reduce((prev, current, index, result) => {
-      var teamForPlayer = prev.find(t => t.id === current.team);
-      if(teamForPlayer) {
-        teamForPlayer.players.push(current);
-      } else {
-        var newTeam = new Team();
-        newTeam.id = current.team;
-        newTeam.players = [current];
-        prev.push(newTeam);
-      }
-      return prev;
-    }, <Team[]>[]).sort((l, r) => l.id > r.id ? 1 : -1);
+    this.playerService.getPlayers().subscribe(data => this.setPlayers(data));
   }
 
   public filter() {
     if(!this.filterTerm) {
       this.players = this.allPlayers;
     }
-    this.players = this.allPlayers.filter(p => p.fullName.toLowerCase().indexOf(this.filterTerm.toLowerCase()) > -1);
+    this.players = this.allPlayers.filter(p => p.name.toLowerCase().indexOf(this.filterTerm.toLowerCase()) > -1);
+  }
+
+  private setPlayers(players: Player[]) {
+    this.allPlayers = this.players = players.sort((l, r) => { return l.name < r.name ? -1 : 1; });
+    const noTeam = new TeamVm();
+    noTeam.name = 'Geen Team';
+
+    this.teams = this.allPlayers.reduce((prev, current, index, result) => {
+      if(!current.participations.length) {
+        noTeam.players.push(current);
+        return prev;
+      } 
+      var teamForPlayer = prev.find(t => t.name === current.participations[0].team.name);
+      if(teamForPlayer) {
+        teamForPlayer.players.push(current);
+      } else {
+        var newTeam = new TeamVm();
+        newTeam.name = current.participations[0].team.name;
+        newTeam.players = [current];
+        prev.push(newTeam);
+      }
+      return prev;
+    }, [noTeam]).sort((l, r) => l.name > r.name ? 1 : -1);
   }
 }
 
-class Team {
-  id: string;
-  players: Player[];
+class TeamVm extends Team {
+  players: Player[] = [];
 }

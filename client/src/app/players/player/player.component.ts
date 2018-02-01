@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RatingService } from 'app/services/rating.service';
 import { PlayersService, Player } from 'app/services/players.service';
@@ -29,25 +30,18 @@ export class PlayerComponent implements OnInit {
     {data: [4, 2, 4, 5, 3, 3,], label: '2017'}
   ];
   public radarChartType:string = 'radar';
- 
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
- 
-  public chartHovered(e:any):void {
-    console.log(e);
-  }
 
 
-  constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService) { }
+  constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService, private readonly route: ActivatedRoute) { }
 
   async ngOnInit() {
     this.radarChartData = [
       { data: Array.from(Array(6).keys()).map(_ => Math.floor(Math.random() * Math.floor(5)) + 1), label: '2016', },
       { data: Array.from(Array(6).keys()).map(_ => Math.floor(Math.random() * Math.floor(5)) + 1), label: '2017', },
     ];
-    this.player = await this.playerService.getPlayer('foo');
+    this.route.params.subscribe(p => {
+      this.playerService.getPlayer(p['id']).subscribe(player => this.player = player);
+    });
     this.radarChartLabels = this.ratingService.categories;
   }
 }
