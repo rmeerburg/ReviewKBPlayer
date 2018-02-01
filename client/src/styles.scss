@@ -3,8 +3,8 @@
 //-------------------------------------------------------------------------------------------------------
 // DEFINING THE BASE THEMING
 //-------------------------------------------------------------------------------------------------------
-$primary: mat-palette($mat-light-blue);
-$accent: mat-palette($mat-blue-grey);
+$primary: mat-palette($mat-orange, 500);
+$accent: mat-palette($mat-grey, 500);
 $warn: mat-palette($mat-red);
 $theme: mat-light-theme($primary, $accent, $warn);
 $dark-theme: mat-dark-theme($primary, $accent, $warn);
