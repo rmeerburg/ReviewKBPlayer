@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { RatingService, Review, Rating, Category } from 'app/services/rating.service';
+import { RatingService, Review, Rating, Category, Level } from 'app/services/rating.service';
+import { PlayersService, Player } from 'app/services/players.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { debug } from 'util';
 
 @Component({
   templateUrl: './rate-player.component.html',
@@ -8,39 +11,43 @@ import { RatingService, Review, Rating, Category } from 'app/services/rating.ser
 })
 export class RatePlayerComponent implements OnInit {
   public review: Review;
-  public currentCat: Category;
+  public levels: Level[];
 
-  constructor(private readonly ratingService: RatingService) {
+  public currentPanel = 0;
+
+  constructor(private readonly ratingService: RatingService, private readonly playersService: PlayersService, private readonly router: Router, public readonly route: ActivatedRoute) {
   }
 
-  public player: any = {
-    name: 'Antjan',
-  };
+  public player: Player;
 
-  public ngOnInit() {
-    this.review = this.ratingService.createnewReview('D');
-    this.currentCat = this.review.categories[0];
+  public async ngOnInit() {
+    this.levels = await this.ratingService.getLevels();
+    this.review = await this.ratingService.createNewReview();
+
+    this.route.params.subscribe(params => {
+      this.playersService.getPlayer(params['id']).subscribe(player => {
+        this.player = player;
+        this.review.playerId = player.playerId;
+      });
+    });
   }
 
-  public rate(cat: Category, rating: Rating) {
-    cat.selectedRating = rating;
-    const currentCatIndex = this.review.categories.lastIndexOf(cat);
-    if(currentCatIndex < this.review.categories.length - 1) {
-      this.currentCat = this.review.categories[currentCatIndex + 1];
-    } else {
-      this.currentCat = null;
-    }
+  public getLevelsForRating(rating: Rating) {
+    return this.levels.filter(l => l.category == rating.category);
   }
 
-  public setCurrentCat(cat: Category) {
-    this.currentCat = cat;
+  public rate(lvl: Level) {
+    let applicableRating = this.review.ratings.find(r => r.category == lvl.category);
+    applicableRating.level = lvl;
+    this.currentPanel++;
   }
 
   public canSubmit() {
-    return !this.review.categories.some(cat => cat.selectedRating === undefined);
+    return this.review && !this.review.ratings.some(rating => rating.level === undefined);
   }
 
-  public submitReview() {
-
+  public async submitReview() {
+    await this.ratingService.saveReview(this.review);
+    this.router.navigate(['/players', this.player.registrationId]);
   }
 }

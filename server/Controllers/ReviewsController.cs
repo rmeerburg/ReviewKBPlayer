@@ -18,12 +18,19 @@ namespace server.Controllers
         }
 
         [HttpGet("api/players/{id}/reviews")]
-        public IEnumerable<Review> Get(Guid id) =>  _context.Reviews;
+        public IEnumerable<Review> GetReviews(Guid id) => _context.Reviews;
+
+        [HttpGet("api/levels")]
+        public IEnumerable<Level> GetLevels() => _context.Levels;
 
         [HttpPost("api/players/{id}/reviews")]
-        public async Task Post(Guid id, [FromBody] Review review)
+        public async Task Post(string id, [FromBody] Review review)
         {
-            review.PlayerId = id;
+            foreach (var rating in review.Ratings)
+            {
+                rating.LevelId = rating.Level.LevelId;
+                rating.Level = null;
+            }
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
         }

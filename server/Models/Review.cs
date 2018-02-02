@@ -17,5 +17,7 @@ namespace Server.Models
 
         public DateTime RatedAt { get; set; }
         public ICollection<Rating> Ratings { get; set; }
+
+        public string Notes { get; set; }
     }
 }

@@ -21,24 +21,12 @@ namespace server.Migrations
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Server.Models.Category", b =>
-                {
-                    b.Property<Guid>("CategoryId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.HasKey("CategoryId");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("Server.Models.Level", b =>
                 {
                     b.Property<Guid>("LevelId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("CategoryId");
+                    b.Property<int>("Category");
 
                     b.Property<string>("Description");
 
@@ -47,8 +35,6 @@ namespace server.Migrations
                     b.Property<string>("ShortDescription");
 
                     b.HasKey("LevelId");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Levels");
                 });
@@ -64,7 +50,7 @@ namespace server.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("RegistratiodId");
+                    b.Property<string>("RegistrationId");
 
                     b.HasKey("PlayerId");
 
@@ -93,6 +79,8 @@ namespace server.Migrations
                 {
                     b.Property<Guid>("ReviewId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Notes");
 
                     b.Property<Guid>("PlayerId");
 
@@ -157,14 +145,6 @@ namespace server.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("TeamParticipations");
-                });
-
-            modelBuilder.Entity("Server.Models.Level", b =>
-                {
-                    b.HasOne("Server.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Server.Models.Rating", b =>

@@ -35,7 +35,7 @@ export class PlayersService {
 }
 
 export class Player {
-    id: string;
+    playerId: string;
     email: string;
     name: string;
     dob: Date;

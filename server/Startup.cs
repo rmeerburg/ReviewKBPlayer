@@ -28,6 +28,7 @@ namespace server
         {
             services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
             });
             services.AddDbContext<KbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));

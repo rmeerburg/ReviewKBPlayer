@@ -3,9 +3,14 @@ using System.Collections.Generic;
 
 namespace Server.Models
 {
-    public class Category
+    public enum Category
     {
-        public Guid CategoryId { get; set; }
-        public string Description { get; set; } // attack, defense...
+        Unknown,
+        Attack,
+        Defense,
+        Tactical,
+        Technical,
+        Fysical,
+        Mental,
     }
 }

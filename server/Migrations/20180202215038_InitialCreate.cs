@@ -9,15 +9,18 @@ namespace server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Levels",
                 columns: table => new
                 {
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Score = table.Column<int>(type: "int", nullable: false),
+                    ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.PrimaryKey("PK_Levels", x => x.LevelId);
                 });
 
             migrationBuilder.CreateTable(
@@ -28,7 +31,7 @@ namespace server.Migrations
                     Dob = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RegistratiodId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RegistrationId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -50,31 +53,11 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Levels",
-                columns: table => new
-                {
-                    LevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Score = table.Column<int>(type: "int", nullable: false),
-                    ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Levels", x => x.LevelId);
-                    table.ForeignKey(
-                        name: "FK_Levels_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
                     ReviewId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -161,11 +144,6 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Levels_CategoryId",
-                table: "Levels",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Ratings_LevelId",
                 table: "Ratings",
                 column: "LevelId");
@@ -212,9 +190,6 @@ namespace server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Teams");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Players");
