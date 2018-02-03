@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace server.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreate2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,41 +53,68 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Teams",
+                columns: table => new
+                {
+                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teams", x => x.TeamId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Participations",
+                columns: table => new
+                {
+                    ParticipationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SeasonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Participations", x => x.ParticipationId);
+                    table.ForeignKey(
+                        name: "FK_Participations_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Players",
+                        principalColumn: "PlayerId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Participations_Seasons_SeasonId",
+                        column: x => x.SeasonId,
+                        principalTable: "Seasons",
+                        principalColumn: "SeasonId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Participations_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "TeamId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
                     ReviewId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ParticipationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.ReviewId);
                     table.ForeignKey(
-                        name: "FK_Reviews_Players_PlayerId",
-                        column: x => x.PlayerId,
-                        principalTable: "Players",
-                        principalColumn: "PlayerId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Teams",
-                columns: table => new
-                {
-                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SeasonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teams", x => x.TeamId);
-                    table.ForeignKey(
-                        name: "FK_Teams_Seasons_SeasonId",
-                        column: x => x.SeasonId,
-                        principalTable: "Seasons",
-                        principalColumn: "SeasonId",
+                        name: "FK_Reviews_Participations_ParticipationId",
+                        column: x => x.ParticipationId,
+                        principalTable: "Participations",
+                        principalColumn: "ParticipationId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -116,32 +143,20 @@ namespace server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "TeamParticipations",
-                columns: table => new
-                {
-                    TeamParticipationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TeamParticipations", x => x.TeamParticipationId);
-                    table.ForeignKey(
-                        name: "FK_TeamParticipations_Players_PlayerId",
-                        column: x => x.PlayerId,
-                        principalTable: "Players",
-                        principalColumn: "PlayerId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TeamParticipations_Teams_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Teams",
-                        principalColumn: "TeamId",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_Participations_PlayerId",
+                table: "Participations",
+                column: "PlayerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Participations_SeasonId",
+                table: "Participations",
+                column: "SeasonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Participations_TeamId",
+                table: "Participations",
+                column: "TeamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_LevelId",
@@ -154,24 +169,9 @@ namespace server.Migrations
                 column: "ReviewId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_PlayerId",
+                name: "IX_Reviews_ParticipationId",
                 table: "Reviews",
-                column: "PlayerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeamParticipations_PlayerId",
-                table: "TeamParticipations",
-                column: "PlayerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeamParticipations_TeamId",
-                table: "TeamParticipations",
-                column: "TeamId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Teams_SeasonId",
-                table: "Teams",
-                column: "SeasonId");
+                column: "ParticipationId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -180,22 +180,22 @@ namespace server.Migrations
                 name: "Ratings");
 
             migrationBuilder.DropTable(
-                name: "TeamParticipations");
-
-            migrationBuilder.DropTable(
                 name: "Levels");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Teams");
+                name: "Participations");
 
             migrationBuilder.DropTable(
                 name: "Players");
 
             migrationBuilder.DropTable(
                 name: "Seasons");
+
+            migrationBuilder.DropTable(
+                name: "Teams");
         }
     }
 }

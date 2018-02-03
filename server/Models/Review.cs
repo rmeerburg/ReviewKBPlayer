@@ -12,8 +12,8 @@ namespace Server.Models
 
         public Guid ReviewId { get; set; }
 
-        public Guid PlayerId { get; set; }
-        public Player Player { get; set; }
+        public Guid ParticipationId { get; set; }
+        public Participation Participation { get; set; }
 
         public DateTime RatedAt { get; set; }
         public ICollection<Rating> Ratings { get; set; }

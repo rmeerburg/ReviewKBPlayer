@@ -12,7 +12,6 @@ namespace Server.Models
         public DateTime Dob { get; set; }
         public Gender Gender { get; set; }
 
-        public ICollection<TeamParticipation> Participations { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Participation> Participations { get; set; }
     }
 }

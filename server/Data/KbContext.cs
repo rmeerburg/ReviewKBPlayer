@@ -21,9 +21,8 @@ namespace Server.Data
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Level> Levels { get; set; }
-        // public DbSet<Category> Categories { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-        public DbSet<TeamParticipation> TeamParticipations { get; set; }
+        public DbSet<Participation> Participations { get; set; }
 
         public async Task EnsureSeeded()
         {
@@ -48,11 +47,11 @@ namespace Server.Data
                 var match = matchTeamRegex.Match(teamLine);
                 Team team = null;
                 if(!Teams.Any(t => t.Name == match.Groups["teamId"].Value))
-                    Teams.Add(team = new Team { Name = match.Groups["teamId"].Value, SeasonId = newSeason.SeasonId, });
+                    Teams.Add(team = new Team { Name = match.Groups["teamId"].Value, });
                     
                 var player = Players.Local.FirstOrDefault(p => p.RegistrationId == match.Groups["playerId"].Value);
                 team = team ?? Teams.Local.FirstOrDefault(t => t.Name == match.Groups["teamId"].Value);
-                TeamParticipations.Add(new TeamParticipation { PlayerId = player.PlayerId, TeamId = team.TeamId, StartDate = DateTime.Today, });
+                Participations.Add(new Participation { PlayerId = player.PlayerId, TeamId = team.TeamId, StartDate = DateTime.Today, SeasonId = newSeason.SeasonId, });
             }
 
             // var newCategories = new[] { "Aanvallen", "Verdedigen", "Tactisch", "Technisch", "Fysiek", "Mentaal", }.Select(cat => new Category { Description = cat, }).ToList();

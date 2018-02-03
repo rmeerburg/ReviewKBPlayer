@@ -23,7 +23,7 @@ namespace server.Controllers
         [HttpGet("api/levels")]
         public IEnumerable<Level> GetLevels() => _context.Levels;
 
-        [HttpPost("api/players/{id}/reviews")]
+        [HttpPost("api/participations/{id}/reviews")]
         public async Task Post(string id, [FromBody] Review review)
         {
             foreach (var rating in review.Ratings)

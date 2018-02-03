@@ -39,6 +39,32 @@ namespace server.Migrations
                     b.ToTable("Levels");
                 });
 
+            modelBuilder.Entity("Server.Models.Participation", b =>
+                {
+                    b.Property<Guid>("ParticipationId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("EndDate");
+
+                    b.Property<Guid>("PlayerId");
+
+                    b.Property<Guid>("SeasonId");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<Guid>("TeamId");
+
+                    b.HasKey("ParticipationId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.HasIndex("SeasonId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("Participations");
+                });
+
             modelBuilder.Entity("Server.Models.Player", b =>
                 {
                     b.Property<Guid>("PlayerId")
@@ -82,13 +108,13 @@ namespace server.Migrations
 
                     b.Property<string>("Notes");
 
-                    b.Property<Guid>("PlayerId");
+                    b.Property<Guid>("ParticipationId");
 
                     b.Property<DateTime>("RatedAt");
 
                     b.HasKey("ReviewId");
 
-                    b.HasIndex("PlayerId");
+                    b.HasIndex("ParticipationId");
 
                     b.ToTable("Reviews");
                 });
@@ -116,35 +142,27 @@ namespace server.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid>("SeasonId");
-
                     b.HasKey("TeamId");
-
-                    b.HasIndex("SeasonId");
 
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("Server.Models.TeamParticipation", b =>
+            modelBuilder.Entity("Server.Models.Participation", b =>
                 {
-                    b.Property<Guid>("TeamParticipationId")
-                        .ValueGeneratedOnAdd();
+                    b.HasOne("Server.Models.Player", "Player")
+                        .WithMany("Participations")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Property<DateTime?>("EndDate");
+                    b.HasOne("Server.Models.Season", "Season")
+                        .WithMany()
+                        .HasForeignKey("SeasonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Property<Guid>("PlayerId");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.Property<Guid>("TeamId");
-
-                    b.HasKey("TeamParticipationId");
-
-                    b.HasIndex("PlayerId");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("TeamParticipations");
+                    b.HasOne("Server.Models.Team", "Team")
+                        .WithMany("Participants")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Server.Models.Rating", b =>
@@ -162,30 +180,9 @@ namespace server.Migrations
 
             modelBuilder.Entity("Server.Models.Review", b =>
                 {
-                    b.HasOne("Server.Models.Player", "Player")
+                    b.HasOne("Server.Models.Participation", "Participation")
                         .WithMany("Reviews")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Server.Models.Team", b =>
-                {
-                    b.HasOne("Server.Models.Season", "Season")
-                        .WithMany("Teams")
-                        .HasForeignKey("SeasonId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Server.Models.TeamParticipation", b =>
-                {
-                    b.HasOne("Server.Models.Player", "Player")
-                        .WithMany("Participations")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Server.Models.Team", "Team")
-                        .WithMany("Participants")
-                        .HasForeignKey("TeamId")
+                        .HasForeignKey("ParticipationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
