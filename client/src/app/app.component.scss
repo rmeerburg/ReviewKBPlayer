@@ -1,0 +1,9 @@
+mat-toolbar {
+    color: white !important;
+    padding-left: 0px;
+    .toolbar-text {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}

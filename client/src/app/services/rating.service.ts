@@ -36,13 +36,13 @@ export class RatingService {
     }
 
     public async saveReview(review: Review) {
-        return this.http.post(`${environment.apiUrl}/players/${review.playerId}/reviews`, review).toPromise();
+        return this.http.post(`${environment.apiUrl}/participations/${review.participationId}/reviews`, review).toPromise();
     }
 }
 
 export class Review {
+    participationId: string;
     ratedAt: Date;
-    playerId: string;
     ratings: Rating[] = [];
     notes: string;
 }
@@ -68,22 +68,3 @@ export enum Category {
     Fysical,
     Mental,
 }
-
-// export class Category {
-//     constructor(private readonly shift: number, public readonly name: string) {}
-
-//     get weightedScore() {
-//         return this.score + this.shift;
-//     }
-
-//     public get score() {
-//         return this.selectedRating && this.selectedRating.score;
-//     }
-
-//     public selectedRating: Rating;
-//     public ratings = ['Uitmuntend', 'Goed', 'Gemiddeld', 'Ondermaats', 'Slecht'].map((descr, index) => new Rating(descr, (-index + 5)));
-// }
-
-// export class Rating {
-//     constructor(public readonly description: string, public readonly score: number) {}
-// }

@@ -9,18 +9,3 @@ $warn: mat-palette($mat-red);
 $theme: mat-light-theme($primary, $accent, $warn);
 $dark-theme: mat-dark-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
-
-
-// @font-face {  src: url("./assets/fonts/Roboto-Regular.tff"); }
-
-html, body {
-    margin: 0;
-    font-family: "Roboto";
-    height: 100%;
-}
-
-.truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}

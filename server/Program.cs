@@ -27,7 +27,7 @@ namespace server
 
 // todo
 // auth
-// review createdby
+    // review createdby
 // fix up player avatars
 // player team history?
 // show existing reviews for player
@@ -36,3 +36,5 @@ namespace server
 // dock toolbar
 // improve player list filter view
 // initial loader
+// localization
+// theming

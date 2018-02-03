@@ -23,7 +23,7 @@
     <mat-nav-list>
       <ng-container *ngFor="let team of teams">
         <h3 mat-subheader>Team {{team.name}}</h3>
-        <mat-list-item *ngFor="let player of team.players" [routerLink]="['players', player.registrationId]">
+        <mat-list-item *ngFor="let player of team.players" [routerLink]="[player.registrationId]">
           <div class="player-item-content">
             <div class="player-profile-name">
               <!-- <img [src]="player.thumbnail" height="40" width="40" /> -->

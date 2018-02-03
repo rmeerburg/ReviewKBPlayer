@@ -12,7 +12,7 @@ import { debug } from 'util';
 export class RatePlayerComponent implements OnInit {
   public review: Review;
   public levels: Level[];
-
+  public notes_expanded: boolean = false;
   public currentPanel = 0;
 
   constructor(private readonly ratingService: RatingService, private readonly playersService: PlayersService, private readonly router: Router, public readonly route: ActivatedRoute) {
@@ -27,7 +27,7 @@ export class RatePlayerComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.playersService.getPlayer(params['id']).subscribe(player => {
         this.player = player;
-        this.review.playerId = player.playerId;
+        this.review.participationId = player.participations[0].participationId;
       });
     });
   }

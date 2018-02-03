@@ -1,3 +1,6 @@
+@import '~@angular/material/theming';
+@import '~styles/theming';
+
 :host {
     display: flex;
     flex-direction: column;
@@ -9,15 +12,40 @@
     width: 100%;
     align-items: center;
     flex-direction: column;
-    background-color: #cccccc;
+    background-color: mat-color($primary);
     padding-bottom: 8px;
-    
-    .profile-picture {
-        box-shadow: white 0px 0px 48px;
-        margin:16px;
-        border-radius: 50%;
-        margin-right: 16px;
+    height: 196px;
+
+    .profile-center {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        justify-content: space-evenly;
+
+        .review-button {
+            background-color: #eee;
+        }
+
+        .hidden-button {
+            visibility: hidden;
+        }
+
+        .image-background {
+            display: flex;
+            padding: 4px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: white 0px 0px 48px;
+            margin:16px;
+            .profile-picture {
+                border-radius: 50%;
+                height: 128px;
+                width: 128px;
+            }
+        }
     }
+    
 
     .profile-data {
         color: white;
@@ -25,11 +53,6 @@
 
         .profile-name {
             font-size: 21px;
-        
-        }
-        
-        .profile-email {
-        
         }
     }
 }
@@ -73,6 +96,16 @@
                       color: grey;
                       margin-top: 4px;
                   }
+              }
+          }
+
+          .reviews {
+              width:100%;
+              .review {
+                  display: flex;
+                  width: 100%;
+                  flex-direction: row;
+                  justify-content: space-around;
               }
           }
       }

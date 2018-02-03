@@ -1,5 +1,18 @@
-<div class="profile-header" #profileheader>
-  <img class="profile-picture" *ngIf="player?.photo" [src]="player?.photo" />
+<div class="profile-header">
+  <div class="profile-center">
+
+    <button mat-fab class="review-button" routerLink="review" [disabled]="!player || !player.participations.length">
+      <mat-icon>rate_review</mat-icon>
+    </button>
+
+    <div class="image-background">
+      <img class="profile-picture" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" />
+    </div>
+
+    <button mat-fab class="hidden-button">
+        <mat-icon>rate_review</mat-icon>
+    </button>
+  </div>
 
   <div class="profile-data">
     <div class="profile-name">{{player?.name}}</div>
@@ -13,20 +26,20 @@
           <mat-list-item>
             <div class="player-detail">
               <span>Team</span>
-              <span *ngIf="player.participations.length">{{player.participations[0].team.name}}</span>
-              <span *ngIf="!player.participations.length">Geen team</span>
+              <span *ngIf="player?.participations.length">{{player?.participations[0].team.name}}</span>
+              <span *ngIf="!player?.participations.length">Geen team</span>
             </div>
           </mat-list-item>
           <mat-list-item>
             <div class="player-detail">
               <span>Geboortedatum</span>
-              <span>{{player?.dob}}</span>
+              <span>{{player?.dob | amDateFormat:'LL'}}</span>
             </div>
           </mat-list-item>
           <mat-list-item>
             <div class="player-detail">
-              <span>Email</span>
-              <span>{{player?.email}}</span>
+              <span>Registratie</span>
+              <span>{{player?.registrationId}}</span>
             </div>
           </mat-list-item>
         </mat-list>
@@ -53,20 +66,20 @@
             <span class="date">04-11-2012</span>
           </div>
         </div>
-      </div>
 
-      <div style="display:flex; justify-content:center; margin-top: 48px;">
-        <button mat-raised-button color="primary" routerLink="review">
-          <mat-icon>rate_review</mat-icon>
-          <span>Nieuwe beoordeling</span>
-        </button>
+        <hr />
+        <div class="reviews">
+          <div *ngFor="let review of player?.participations" class="review">
+            <div>{{review.ratedAt | amDateFormat:'LL'}}</div>
+            <div>Pietje</div>
+          </div>
+        </div>
       </div>
 
     </mat-tab>
     <mat-tab label="Prestaties">
       <div class="chart-container" style="position: relative; height:350px;">
-        <canvas baseChart [options]="chartOptions" [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType"
-          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+        <canvas baseChart [options]="chartOptions" [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType"></canvas>
       </div>
     </mat-tab>
   </mat-tab-group>

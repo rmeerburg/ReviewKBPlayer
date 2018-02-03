@@ -1,0 +1,13 @@
+@import './theming.scss';
+
+html, body {
+    margin: 0;
+    font-family: "Roboto";
+    height: 100%;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

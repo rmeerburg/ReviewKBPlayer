@@ -1,19 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, } from '@angular/material';
+import { MomentModule } from 'angular2-moment';
+import { ChartsModule } from 'ng2-charts';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 import { AppComponent } from './app.component';
 import { RatePlayerComponent } from './players/rate-player/rate-player.component';
-import { RouterModule } from '@angular/router';
 import { appRoutes } from './app-routing.module';
 import { PlayerComponent } from './players/player/player.component';
-import { HttpClientModule } from '@angular/common/http';
-
-import { ChartsModule } from 'ng2-charts';
 import { RatingService } from './services/rating.service';
 import { PlayersService } from './services/players.service';
-import { FormsModule } from '@angular/forms';
 import { PlayerListComponent } from './players/player-list/player-list.component';
 
 @NgModule({
@@ -26,6 +27,8 @@ import { PlayerListComponent } from './players/player-list/player-list.component
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    MomentModule,
+    LoadingBarHttpClientModule,
     MatButtonModule,
     MatToolbarModule,
     MatTabsModule,
