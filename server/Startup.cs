@@ -135,7 +135,9 @@ namespace server
 
             app.UseAuthentication();
 
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes => {
+                routes.MapRoute("catch-all", "{*url}", defaults: new { controller = "Home", action = "Index" });
+            });
 
             using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
