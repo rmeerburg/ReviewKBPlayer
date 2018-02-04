@@ -32,9 +32,4 @@ namespace server
 // player team history?
 // show existing reviews for player
 // summarize reviews into radar per season
-// navigation to player list
-// dock toolbar
-// improve player list filter view
-// initial loader
 // localization
-// theming

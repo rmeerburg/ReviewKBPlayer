@@ -6,10 +6,11 @@ using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Server.Data
 {
-    public class KbContext : DbContext
+    public class KbContext : IdentityDbContext<ApplicationUser>
     {
         public KbContext(DbContextOptions<KbContext> options)
             : base(options)

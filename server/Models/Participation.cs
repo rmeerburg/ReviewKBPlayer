@@ -5,6 +5,11 @@ namespace Server.Models
 {
     public class Participation
     {
+        public Participation()
+        {
+            Reviews = new HashSet<Review>();
+        }
+
         public Guid ParticipationId { get; set; }
 
         public Guid PlayerId { get; set; }
