@@ -26,29 +26,6 @@
     <mat-tab-group mat-stretch-tabs selectedIndex="0">
       <mat-tab label="Over">
         <div class="player-details-tab">
-          <mat-list>
-            <mat-list-item>
-              <div class="player-detail">
-                <span>Team</span>
-                <span *ngIf="player?.participations.length">{{player?.participations[0].team.name}}</span>
-                <span *ngIf="!player?.participations.length">Geen team</span>
-              </div>
-            </mat-list-item>
-            <mat-list-item>
-              <div class="player-detail">
-                <span>Geboortedatum</span>
-                <span>{{player?.dob | amDateFormat:'LL'}}</span>
-              </div>
-            </mat-list-item>
-            <mat-list-item>
-              <div class="player-detail">
-                <span>Registratie</span>
-                <span>{{player?.registrationId}}</span>
-              </div>
-            </mat-list-item>
-          </mat-list>
-
-          <hr />
           <div class="player-history">
             <div class="event">
               <span class="team">A2</span>
@@ -72,13 +49,38 @@
           </div>
 
           <hr />
+
           <div class="reviews">
+            <div class="reviews-title">Speler</div>
+            <div class="review">
+              <span>Team</span>
+              <span *ngIf="player?.participations.length">{{player?.participations[0].team.name}}</span>
+              <span *ngIf="!player?.participations.length">Geen team</span>
+            </div>
+            <div class="review">
+              <span>Geboortedatum</span>
+              <span>{{player?.dob | amDateFormat:'LL'}}</span>
+            </div>
+            <div class="review">
+              <span>Registratie</span>
+              <span>{{player?.registrationId}}</span>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="reviews">
+            <div class="reviews-title">Beoordelingen</div>
             <ng-container *ngFor="let participation of player?.participations">
               <div *ngFor="let review of participation.reviews" class="review">
-                <div>{{review.ratedAt | amDateFormat:'LL'}}</div>
-                <div>Pietje</div>
+                <div class="review-date">{{review.ratedAt | amDateFormat:'LL'}}</div>
+                <div class="review-user">{{review.submittedBy.userName}}</div>
               </div>
             </ng-container>
+            <div *ngIf="!hasReviews()" class="no-reviews">
+              <div>Nog geen beoordelingen</div>
+              <div>Voeg een <a routerLink="review">nieuwe beoordeling</a> toe</div>
+            </div>
           </div>
         </div>
 

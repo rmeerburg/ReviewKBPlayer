@@ -33,6 +33,7 @@ export class Participation {
     teamId: string;
     team: Team;
     playerId: string
+    reviews: Review[];
 }
 
 export class Team {

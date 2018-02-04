@@ -25,6 +25,6 @@ namespace Server.Controllers
         } 
 
         [HttpGet("api/players/{id}")]
-        public Player Get(string id) =>  _context.Players.Include(p => p.Participations).ThenInclude(p => p.Team).Include(p => p.Participations).ThenInclude(p => p.Reviews).FirstOrDefault(p => p.RegistrationId == id);
+        public Player Get(string id) =>  _context.Players.Include(p => p.Participations).ThenInclude(p => p.Team).Include(p => p.Participations).ThenInclude(p => p.Reviews).ThenInclude(r => r.SubmittedBy).FirstOrDefault(p => p.RegistrationId == id);
     }
 }

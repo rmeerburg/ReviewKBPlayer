@@ -23,6 +23,10 @@ export class PlayerComponent implements OnInit {
     }
   }
 
+  public hasReviews() {
+    return this.player && this.player.participations && this.player.participations.some(p => !!p.reviews.length);
+  }
+
   public readonly radarChartLabels: string[] = [];
  
   public radarChartData:any = [
