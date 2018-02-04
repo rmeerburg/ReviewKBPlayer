@@ -15,9 +15,15 @@ export class RatingService {
     };
 
     constructor(private readonly http: HttpClient) {
+        this.categories.set(Category.Attack, "Aanvallen");
+        this.categories.set(Category.Defense, "Verdedigen");
+        this.categories.set(Category.Fysical, "Fysiek");
+        this.categories.set(Category.Mental, "Mentaal");
+        this.categories.set(Category.Tactical, "Tectisch");
+        this.categories.set(Category.Technical, "Technisch");
     }
 
-    public readonly categories: ReadonlyArray<string> = ['Aanvallen', 'Technisch', 'Fysiek', 'Verdedigen', 'Mentaal', 'Tactisch'];
+    public readonly categories: Map<Category, string> = new Map<Category, string>();
 
     public async getLevels() {
         return this.http.get<Level[]>(`${environment.apiUrl}/levels`).toPromise();

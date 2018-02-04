@@ -15,7 +15,8 @@ export class PlayerListComponent implements OnInit {
 
   public teams: TeamVm[];
 
-  constructor(private readonly playerService: PlayersService) { }
+  constructor(private readonly playerService: PlayersService) {
+   }
 
   public async ngOnInit() {
     this.playerService.getPlayers().subscribe(data => this.setPlayers(data));
@@ -26,6 +27,11 @@ export class PlayerListComponent implements OnInit {
       this.players = this.allPlayers;
     }
     this.players = this.allPlayers.filter(p => p.name.toLowerCase().indexOf(this.filterTerm.toLowerCase()) > -1);
+  }
+
+  public clearFilter() {
+    this.filterTerm = '';
+    this.filter();
   }
 
   private setPlayers(players: Player[]) {

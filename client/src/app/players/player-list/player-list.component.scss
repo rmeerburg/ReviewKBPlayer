@@ -1,13 +1,27 @@
 .filter-box {
-    mat-form-field {
-        width: 100%;
-    }
-    margin-left: 28px;
-    margin-right: 28px;
-    margin-top: 8px;
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
+
+    display: flex;
+    align-items: center;
+
+    height: 32px;
 
     .search-icon {
+        margin-right: 16px;
         color: grey;
+    }
+
+    button {
+        color: grey;
+    }
+
+    input {
+        border: none;
+        width:100%;
+        outline: none;
+        font-size: 16px;
     }
 }
 

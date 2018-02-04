@@ -16,6 +16,7 @@ import { PlayerComponent } from './players/player/player.component';
 import { RatingService } from './services/rating.service';
 import { PlayersService } from './services/players.service';
 import { PlayerListComponent } from './players/player-list/player-list.component';
+import { LoaderComponent } from './common/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PlayerListComponent } from './players/player-list/player-list.component
     RatePlayerComponent,
     PlayerComponent,
     PlayerListComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

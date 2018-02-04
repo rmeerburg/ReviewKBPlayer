@@ -1,86 +1,95 @@
-<div class="profile-header">
-  <div class="profile-center">
+<div *ngIf="player">
+  <div class="profile-header">
+    <div class="profile-center">
 
-    <button mat-fab class="review-button" routerLink="review" [disabled]="!player || !player.participations.length">
-      <mat-icon>rate_review</mat-icon>
-    </button>
+      <button mat-fab class="review-button" routerLink="review" [disabled]="!player || !player.participations.length">
+        <mat-icon>rate_review</mat-icon>
+      </button>
 
-    <div class="image-background">
-      <img class="profile-picture" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" />
+      <div class="image-background">
+        <img class="profile-picture" *ngIf="player?.gender === 2" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+        />
+        <img class="profile-picture" *ngIf="player?.gender === 3" src="https://vignette3.wikia.nocookie.net/strangerthings8338/images/e/ee/JaneDoeP.jpg/revision/latest?cb=20160717214233"
+        />
+      </div>
+
+      <button mat-fab class="hidden-button">
+        <mat-icon>rate_review</mat-icon>
+      </button>
     </div>
 
-    <button mat-fab class="hidden-button">
-        <mat-icon>rate_review</mat-icon>
-    </button>
+    <div class="profile-data">
+      <div class="profile-name">{{player?.name}}</div>
+    </div>
   </div>
+  <div class="player-details">
+    <mat-tab-group mat-stretch-tabs selectedIndex="0">
+      <mat-tab label="Over">
+        <div class="player-details-tab">
+          <mat-list>
+            <mat-list-item>
+              <div class="player-detail">
+                <span>Team</span>
+                <span *ngIf="player?.participations.length">{{player?.participations[0].team.name}}</span>
+                <span *ngIf="!player?.participations.length">Geen team</span>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="player-detail">
+                <span>Geboortedatum</span>
+                <span>{{player?.dob | amDateFormat:'LL'}}</span>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <div class="player-detail">
+                <span>Registratie</span>
+                <span>{{player?.registrationId}}</span>
+              </div>
+            </mat-list-item>
+          </mat-list>
 
-  <div class="profile-data">
-    <div class="profile-name">{{player?.name}}</div>
-  </div>
-</div>
-<div class="player-details">
-  <mat-tab-group mat-stretch-tabs selectedIndex="0">
-    <mat-tab label="Over">
-      <div class="player-details-tab">
-        <mat-list>
-          <mat-list-item>
-            <div class="player-detail">
-              <span>Team</span>
-              <span *ngIf="player?.participations.length">{{player?.participations[0].team.name}}</span>
-              <span *ngIf="!player?.participations.length">Geen team</span>
+          <hr />
+          <div class="player-history">
+            <div class="event">
+              <span class="team">A2</span>
+              <span class="date">Nu</span>
             </div>
-          </mat-list-item>
-          <mat-list-item>
-            <div class="player-detail">
-              <span>Geboortedatum</span>
-              <span>{{player?.dob | amDateFormat:'LL'}}</span>
+            <div class="arrow">←</div>
+            <div class="event">
+              <span class="team">A3</span>
+              <span class="date">25-06-2016</span>
             </div>
-          </mat-list-item>
-          <mat-list-item>
-            <div class="player-detail">
-              <span>Registratie</span>
-              <span>{{player?.registrationId}}</span>
+            <div class="arrow">←</div>
+            <div class="event">
+              <span class="team">B3</span>
+              <span class="date">11-01-2014</span>
             </div>
-          </mat-list-item>
-        </mat-list>
+            <div class="arrow">←</div>
+            <div class="event">
+              <span class="team">D2</span>
+              <span class="date">04-11-2012</span>
+            </div>
+          </div>
 
-        <hr />
-        <div class="player-history">
-          <div class="event">
-            <span class="team">A2</span>
-            <span class="date">Nu</span>
-          </div>
-          <div class="arrow">←</div>
-          <div class="event">
-            <span class="team">A3</span>
-            <span class="date">25-06-2016</span>
-          </div>
-          <div class="arrow">←</div>
-          <div class="event">
-            <span class="team">B3</span>
-            <span class="date">11-01-2014</span>
-          </div>
-          <div class="arrow">←</div>
-          <div class="event">
-            <span class="team">D2</span>
-            <span class="date">04-11-2012</span>
+          <hr />
+          <div class="reviews">
+            <ng-container *ngFor="let participation of player?.participations">
+              <div *ngFor="let review of participation.reviews" class="review">
+                <div>{{review.ratedAt | amDateFormat:'LL'}}</div>
+                <div>Pietje</div>
+              </div>
+            </ng-container>
           </div>
         </div>
 
-        <hr />
-        <div class="reviews">
-          <div *ngFor="let review of player?.participations" class="review">
-            <div>{{review.ratedAt | amDateFormat:'LL'}}</div>
-            <div>Pietje</div>
-          </div>
+      </mat-tab>
+      <mat-tab label="Prestaties">
+        <div class="chart-container" style="position: relative; height:350px;">
+          <canvas baseChart [options]="chartOptions" [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType"></canvas>
         </div>
-      </div>
-
-    </mat-tab>
-    <mat-tab label="Prestaties">
-      <div class="chart-container" style="position: relative; height:350px;">
-        <canvas baseChart [options]="chartOptions" [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType"></canvas>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>
+
+<loader *ngIf="!player"></loader>

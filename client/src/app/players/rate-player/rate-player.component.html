@@ -1,39 +1,53 @@
-<div class="title">Beoordeling voor speler {{player?.name}}</div>
-
-<mat-accordion class="example-headers-align">
-  <mat-expansion-panel *ngFor="let rating of review?.ratings; let i = index" hideToggle="true" [expanded]="i === currentPanel" (opened)="this.currentPanel = i">
-    <mat-expansion-panel-header>
-      <mat-panel-title>{{rating.category}}</mat-panel-title>
-      <mat-panel-description>
-        <div class="category-header">
-          <span *ngIf="!rating.level" class="no-score">Niet beoordeeld</span>
-          <span *ngIf="rating.level">{{rating.level.description}}</span>
-        </div>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <div class="rating-options">
-      <button *ngFor="let level of getLevelsForRating(rating)" mat-raised-button color="accent" [class.selected]="level === rating.level" (click)="rate(level)">{{level.description}}</button>
+<div *ngIf="player">
+  <div class="review-header" [routerLink]="['/players', player.registrationId]">
+    <div class="image-background">
+      <img class="profile-picture" *ngIf="player?.gender === 2" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+      />
+      <img class="profile-picture" *ngIf="player?.gender === 3" src="https://vignette3.wikia.nocookie.net/strangerthings8338/images/e/ee/JaneDoeP.jpg/revision/latest?cb=20160717214233"
+      />
     </div>
-  </mat-expansion-panel>
+    <span>{{player?.name}}</span>
+  </div>
 
-  <mat-expansion-panel hideToggle="true" [expanded]="notes_expanded" (opened)="notes_expanded = true" (closed)="notes_expanded = false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>Notities</mat-panel-title>
-      <mat-panel-description>
-        <div class="category-header">
-          <span class="truncate" *ngIf="notes_expanded === false">{{review?.notes}}</span>
-        </div>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+  <mat-accordion class="example-headers-align">
+    <mat-expansion-panel *ngFor="let rating of review?.ratings; let i = index" hideToggle="true" [expanded]="i === currentPanel"
+      (opened)="this.currentPanel = i">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{getLabelForCategory(rating.category)}}</mat-panel-title>
+        <mat-panel-description>
+          <div class="category-header">
+            <span *ngIf="!rating.level" class="no-score">Niet beoordeeld</span>
+            <span *ngIf="rating.level">{{rating.level.description}}</span>
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <mat-form-field class="notes">
-      <textarea [(ngModel)]="review && review.notes" matInput matTextareaAutosize placeholder="Voeg een notitie toe"></textarea>
-    </mat-form-field>
+      <div class="rating-options">
+        <button *ngFor="let level of getLevelsForRating(rating)" mat-raised-button class="rating-button" [class.selected]="level === rating.level"
+          (click)="rate(level)">{{level.description}}</button>
+      </div>
+    </mat-expansion-panel>
 
-  </mat-expansion-panel>
-</mat-accordion>
+    <mat-expansion-panel hideToggle="true" [expanded]="notes_expanded" (opened)="notes_expanded = true" (closed)="notes_expanded = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Notities</mat-panel-title>
+        <mat-panel-description>
+          <div class="category-header">
+            <span class="truncate" *ngIf="notes_expanded === false">{{review?.notes}}</span>
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-<div class="submit-review">
-  <button mat-raised-button color="primary" [disabled]="!canSubmit()" (click)="submitReview()">Opslaan</button>
+      <mat-form-field class="notes">
+        <textarea [(ngModel)]="review && review.notes" matInput matTextareaAutosize placeholder="Voeg een notitie toe"></textarea>
+      </mat-form-field>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="submit-review">
+    <button mat-raised-button color="primary" [disabled]="!canSubmit()" (click)="submitReview()">Opslaan</button>
+  </div>
 </div>
+
+<loader *ngIf="!player"></loader>

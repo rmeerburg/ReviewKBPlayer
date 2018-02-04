@@ -1,20 +1,49 @@
+.review-header {
+  display: flex;
+  margin: 16px;
+  align-items: center;
+
+  .image-background {
+      display: flex;
+      padding: 2px;
+      background-color: grey;
+      border-radius: 50%;
+      margin-right: 24px;
+
+    .profile-picture {
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+    }
+  }
+
+
+  .profile-picture {
+      border-radius: 50%;
+      height: 128px;
+      width: 128px;
+  }
+}
+
 .title {
     margin: 8px;
 }
 
-  .rating-options {
-      display: flex;
-      flex-direction: column;
+.rating-options {
+    display: flex;
+    flex-direction: column;
 
-      button {
-          margin: 8px;
-          min-height: 48px;
-      }
-  }
+    .rating-button {
+        margin: 8px;
+        min-height: 48px;
+        background-color: #ff980080;
 
-  .selected {
-    background-color:  #ff9800 !important;
-  }
+        &.selected {
+          background-color:  #ff9800;
+
+        }
+    }
+}
 
   .submit-review {
       display: flex;

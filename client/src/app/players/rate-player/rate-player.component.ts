@@ -14,11 +14,10 @@ export class RatePlayerComponent implements OnInit {
   public levels: Level[];
   public notes_expanded: boolean = false;
   public currentPanel = 0;
+  public player: Player;
 
   constructor(private readonly ratingService: RatingService, private readonly playersService: PlayersService, private readonly router: Router, public readonly route: ActivatedRoute) {
   }
-
-  public player: Player;
 
   public async ngOnInit() {
     this.levels = await this.ratingService.getLevels();
@@ -44,6 +43,10 @@ export class RatePlayerComponent implements OnInit {
 
   public canSubmit() {
     return this.review && !this.review.ratings.some(rating => rating.level === undefined);
+  }
+
+  public getLabelForCategory(cat: Category) {
+    return this.ratingService.categories.get(cat);
   }
 
   public async submitReview() {

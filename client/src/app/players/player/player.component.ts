@@ -23,14 +23,13 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  public radarChartLabels:ReadonlyArray<string>;// = ['Aanvallen', 'Verdedigen', 'Scoren', 'Teamspel', 'Tactiek'];
+  public readonly radarChartLabels: string[] = [];
  
   public radarChartData:any = [
     {data: [3, 3, 2, 5, 2, 3,], label: '2016'},
     {data: [4, 2, 4, 5, 3, 3,], label: '2017'}
   ];
   public radarChartType:string = 'radar';
-
 
   constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService, private readonly route: ActivatedRoute) { }
 
@@ -42,6 +41,6 @@ export class PlayerComponent implements OnInit {
     this.route.params.subscribe(p => {
       this.playerService.getPlayer(p['id']).subscribe(player => this.player = player);
     });
-    this.radarChartLabels = this.ratingService.categories;
+    this.ratingService.categories.forEach((v, k) => this.radarChartLabels.push(v));
   }
 }
