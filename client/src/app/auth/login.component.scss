@@ -1,0 +1,64 @@
+@import '~@angular/material/theming';
+@import '~styles/theming';
+
+.container {
+    height: 100%;
+    background-color: mat-color($primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+
+    .logo {
+        max-width: 50vw;
+        height: auto;
+        width: auto;
+    }
+
+    mat-icon {
+        color: white;
+        margin-right: 16px;
+    }
+
+    input {
+        outline: none;
+        background: transparent;
+        border: none;
+    }
+
+    .username-container, .password-container {
+        border-bottom: 2px solid white;
+        margin: 16px;
+        padding: 8px;
+        width: 100%;
+        display: flex;
+        
+        input {
+            font-size: 18px;
+            color: white;
+        }
+    }
+
+    .submit-button-container {
+        width: 100%;
+        padding: 32px;
+
+        button {
+            width: 100%;
+            padding: 8px;
+        }
+    }
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: white;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: white;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: white;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: white;
+  }

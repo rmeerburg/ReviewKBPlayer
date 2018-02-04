@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Server.Data;
 using Server.Models;
 
-namespace server.Controllers
+namespace Server.Controllers
 {
     public class PlayersController : Controller
     {

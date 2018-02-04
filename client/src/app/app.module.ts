@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, } from '@angular/material';
@@ -17,10 +17,15 @@ import { RatingService } from './services/rating.service';
 import { PlayersService } from './services/players.service';
 import { PlayerListComponent } from './players/player-list/player-list.component';
 import { LoaderComponent } from './common/loader/loader.component';
+import { IsAuthenticatedGuard } from 'app/infrastructure/is-authenticated.guard';
+import { LoginComponent } from 'app/auth/login.component';
+import { AuthenticationService } from 'app/infrastructure/authentication.service';
+import { TokenInterceptor } from 'app/infrastructure/token.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     RatePlayerComponent,
     PlayerComponent,
     PlayerListComponent,
@@ -43,7 +48,18 @@ import { LoaderComponent } from './common/loader/loader.component';
     ChartsModule,
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [RatingService, PlayersService, MatIconRegistry],
+  providers: [
+    RatingService,
+    PlayersService, 
+    MatIconRegistry, 
+    IsAuthenticatedGuard, 
+    AuthenticationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
