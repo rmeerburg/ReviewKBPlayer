@@ -11,7 +11,11 @@
     <input type="password" placeholder="Password" [(ngModel)]="credentials.password">
   </div>
 
+  <div class="error-container" *ngIf="loginFailed">
+    <span>Invalid username or password</span>
+  </div>
+
   <div class="submit-button-container">
-      <button mat-raised-button [disabled]="false" (click)="submit()">Login</button>
+      <button mat-raised-button [disabled]="authenticating" (click)="submit()">Login</button>
   </div>
 </div>

@@ -31,6 +31,7 @@ namespace Server.Controllers
                 rating.LevelId = rating.Level.LevelId;
                 rating.Level = null;
             }
+            review.ApplicationUserId = User.Claims.First(claim => claim.Type == "id").Value;
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
         }

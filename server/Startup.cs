@@ -39,6 +39,7 @@ namespace server
         {
             services.AddSingleton<IJwtFactory, JwtFactory>();
             services.AddSingleton<JwtIssuerOptions>();
+            services.AddSingleton<IConfiguration>(this.Configuration);
             
             services.AddMvc(options =>
             {
@@ -139,7 +140,7 @@ namespace server
             using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetService<KbContext>();
-                await dbContext.EnsureSeeded();
+                await dbContext.EnsureSeeded(Configuration["SeedFilesDirectory"]);
             }
         }
     }

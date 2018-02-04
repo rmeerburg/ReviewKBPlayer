@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://foo.bar/api',
+  apiUrl: 'https://ckv-oranje-wit.azurewebsites.net/api',
+           
 };
