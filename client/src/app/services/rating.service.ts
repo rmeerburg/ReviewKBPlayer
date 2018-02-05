@@ -19,7 +19,7 @@ export class RatingService {
         this.categories.set(Category.Defense, "Verdedigen");
         this.categories.set(Category.Fysical, "Fysiek");
         this.categories.set(Category.Mental, "Mentaal");
-        this.categories.set(Category.Tactical, "Tectisch");
+        this.categories.set(Category.Tactical, "Tactisch");
         this.categories.set(Category.Technical, "Technisch");
     }
 

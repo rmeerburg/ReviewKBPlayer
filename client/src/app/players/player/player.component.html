@@ -55,7 +55,7 @@
             <div class="review">
               <span>Team</span>
               <span *ngIf="player?.participations.length">{{player?.participations[0].team.name}}</span>
-              <span *ngIf="!player?.participations.length">Geen team</span>
+              <span class="no-team" *ngIf="!player?.participations.length">Geen team</span>
             </div>
             <div class="review">
               <span>Geboortedatum</span>

@@ -36,15 +36,25 @@
     display: flex;
     flex-direction: column;
 
-    .rating-button {
-        margin: 8px;
-        min-height: 48px;
-        background-color: transparentize(mat-color($primary), 0.5); // #ff980080;
+    .rating-button-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-        &.selected {
-          background-color:  mat-color($primary);
-
-        }
+      .info-button {
+        color: grey;
+      }
+      .rating-button {
+          margin: 8px;
+          min-height: 48px;
+          width: 100%;
+          background-color: transparentize(mat-color($primary), 0.5);
+  
+          &.selected {
+            background-color:  mat-color($primary);
+  
+          }
+      }
     }
 }
 
