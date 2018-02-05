@@ -78,8 +78,11 @@
               </div>
             </ng-container>
             <div *ngIf="!hasReviews()" class="no-reviews">
-              <div>Nog geen beoordelingen</div>
-              <div>Voeg een <a routerLink="review">nieuwe beoordeling</a> toe</div>
+              <div *ngIf="player?.participations.length">
+                <div>Nog geen beoordelingen</div>
+                <div>Voeg een <a routerLink="review">nieuwe beoordeling</a> toe</div>
+              </div>
+              <div *ngIf="!player?.participations.length">Geen nieuwe beoordeling mogelijk omdat deze speler niet in een team zit</div>
             </div>
           </div>
         </div>
