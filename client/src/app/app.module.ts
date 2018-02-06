@@ -4,10 +4,11 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, MatStepperModule, } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, MatStepperModule, MatSnackBarModule, } from '@angular/material';
 import { MomentModule } from 'angular2-moment';
 import { ChartsModule } from 'ng2-charts';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppComponent } from './app.component';
 import { RatePlayerComponent } from './players/rate-player/rate-player.component';
@@ -21,6 +22,7 @@ import { IsAuthenticatedGuard } from 'app/infrastructure/is-authenticated.guard'
 import { LoginComponent } from 'app/auth/login.component';
 import { AuthenticationService } from 'app/infrastructure/authentication.service';
 import { TokenInterceptor } from 'app/infrastructure/token.interceptor';
+import { environment } from 'environments/environment';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { TokenInterceptor } from 'app/infrastructure/token.interceptor';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production, }),
     MomentModule,
     LoadingBarHttpClientModule,
     MatButtonModule,
@@ -44,6 +47,7 @@ import { TokenInterceptor } from 'app/infrastructure/token.interceptor';
     MatInputModule,
     MatIconModule,
     MatStepperModule,
+    MatSnackBarModule,
     FormsModule,
     HttpClientModule,
     ChartsModule,

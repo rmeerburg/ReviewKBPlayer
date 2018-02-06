@@ -56,7 +56,7 @@
     <div class="rating-options">
       <div *ngFor="let level of getLevelsForRating(rating)" class="rating-button-container">
         <button matStepperNext mat-raised-button class="rating-button" [class.selected]="level === rating.level" (click)="rate(level)">{{level.description}}</button>
-        <button mat-icon-button class="info-button">
+        <button mat-icon-button class="info-button" (click)="showInfoFor(level)">
           <mat-icon>info_outline</mat-icon>
         </button>
       </div>

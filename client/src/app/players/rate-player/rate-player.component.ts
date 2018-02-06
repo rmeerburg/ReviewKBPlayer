@@ -3,6 +3,7 @@ import { RatingService, Review, Rating, Category, Level } from 'app/services/rat
 import { PlayersService, Player } from 'app/services/players.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debug } from 'util';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   templateUrl: './rate-player.component.html',
@@ -16,7 +17,7 @@ export class RatePlayerComponent implements OnInit {
   public currentPanel = 0;
   public player: Player;
 
-  constructor(private readonly ratingService: RatingService, private readonly playersService: PlayersService, private readonly router: Router, public readonly route: ActivatedRoute) {
+  constructor(private readonly ratingService: RatingService, private readonly playersService: PlayersService, private readonly router: Router, private readonly route: ActivatedRoute, private readonly snackBar: MatSnackBar) {
   }
 
   public async ngOnInit() {
@@ -52,5 +53,9 @@ export class RatePlayerComponent implements OnInit {
   public async submitReview() {
     await this.ratingService.saveReview(this.review);
     this.router.navigate(['/players', this.player.registrationId]);
+  }
+
+  public showInfoFor(lvl: Level) {
+    this.snackBar.open(`${lvl.description}: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`, "sluiten", { duration: 5000, });
   }
 }
