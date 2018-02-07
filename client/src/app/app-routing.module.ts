@@ -10,6 +10,6 @@ export const appRoutes: Routes = [
     { path: 'browse/:what', component: PlayerListComponent, canActivate: [IsAuthenticatedGuard] },
     { path: 'players/:id', component: PlayerComponent, canActivate: [IsAuthenticatedGuard] },
     { path: 'players/:id/review', component: RatePlayerComponent, canActivate: [IsAuthenticatedGuard] },
-    { path: '', redirectTo: '/players', pathMatch: 'full' }
+    { path: '', redirectTo: '/browse/players', pathMatch: 'full' }
     // { path: '**', component: PageNotFoundComponent }
 ];

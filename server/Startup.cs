@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,7 +41,7 @@ namespace server
             services.AddSingleton<IJwtFactory, JwtFactory>();
             services.AddSingleton<JwtIssuerOptions>();
             services.AddSingleton<IConfiguration>(this.Configuration);
-            
+
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -130,12 +131,20 @@ namespace server
                 app.UseDatabaseErrorPage();
             }
 
+            if (!env.IsDevelopment())
+            {
+                var options = new RewriteOptions()
+                    .AddRedirectToHttps();
+                app.UseRewriter(options);
+            }
+
             app.UseCors("defaultPolicy");
             app.UseStaticFiles();
 
             app.UseAuthentication();
 
-            app.UseMvc(routes => {
+            app.UseMvc(routes =>
+            {
                 routes.MapRoute("catch-all", "{*url}", defaults: new { controller = "Home", action = "Index" });
             });
 

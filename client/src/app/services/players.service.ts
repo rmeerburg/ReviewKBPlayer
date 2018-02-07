@@ -21,6 +21,7 @@ export class Player {
     name: string;
     dob: Date;
     registrationId: string;
+    gender: Gender;
 
     participations: Participation[];
     reviews: Review[];
@@ -43,4 +44,11 @@ export class Participation {
 
 export class Team {
     name: string;
+}
+
+export enum Gender {
+    Unknown,
+    Other,
+    Male,
+    Female,
 }

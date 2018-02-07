@@ -1,14 +1,14 @@
-<div class="container">
-  <img class="logo" src="http://ckvoranjewit.nl//wp-content/uploads/2017/10/cropped-logo-ow.png" />
+<form (submit)="submit()" class="container" (window:keyup.enter)="submit()">
+  <img class="logo" src="/assets/logo/cropped-logo-ow.png" />
 
   <div class="username-container">
     <mat-icon>account_circle</mat-icon>
-      <input text="email" placeholder="Email" [(ngModel)]="credentials.email">
+    <input text="email" name="email" placeholder="Email" [(ngModel)]="credentials.email">
   </div>
 
   <div class="password-container">
     <mat-icon>vpn_key</mat-icon>
-    <input type="password" placeholder="Password" [(ngModel)]="credentials.password">
+    <input type="password" name="password" placeholder="Password" [(ngModel)]="credentials.password">
   </div>
 
   <div class="error-container" *ngIf="loginFailed">
@@ -16,6 +16,6 @@
   </div>
 
   <div class="submit-button-container">
-      <button mat-raised-button [disabled]="authenticating" (click)="submit()">Login</button>
+    <button mat-raised-button [disabled]="authenticating" type="submit">Login</button>
   </div>
-</div>
+</form>

@@ -63,12 +63,12 @@ import { CustomReuseStrategy } from 'app/infrastructure/reuse-strategy';
     AuthenticationService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
+      useClass: CacheInterceptor,
       multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CacheInterceptor,
+      useClass: TokenInterceptor,
       multi: true
     },
     {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
