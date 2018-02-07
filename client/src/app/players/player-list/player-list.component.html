@@ -1,5 +1,5 @@
 <div *ngIf="players?.length">
-  <mat-tab-group selectedIndex="0" mat-stretch-tabs>
+  <mat-tab-group selectedIndex="0" mat-stretch-tabs [selectedIndex]="currentTabIndex" (selectedTabChange)="tabChanged()">
     <mat-tab label="Spelers">
       <div class="filter-box">
         <mat-icon class="search-icon">search</mat-icon>
@@ -10,13 +10,13 @@
       </div>
 
       <mat-nav-list>
-        <mat-list-item *ngFor="let player of players" [routerLink]="[player.registrationId]">
+        <mat-list-item *ngFor="let player of players" [routerLink]="['/players', player.registrationId]">
           <div class="player-item-content">
             <div class="player-profile-name">
               <span>{{player.name}}</span>
             </div>
-            <span class="player-additional-text" *ngIf="player.participations.length">{{player.participations[0].team.name}}</span>
-            <span class="player-additional-text" *ngIf="!player.participations.length">Geen team</span>
+            <span class="player-additional-text" *ngIf="player.currentTeam">{{player.currentTeam}}</span>
+            <span class="player-additional-text" *ngIf="!player.currentTeam">Geen team</span>
           </div>
         </mat-list-item>
       </mat-nav-list>
@@ -25,7 +25,7 @@
       <mat-nav-list>
         <ng-container *ngFor="let team of teams">
           <h3 mat-subheader>Team {{team.name}}</h3>
-          <mat-list-item *ngFor="let player of team.players" [routerLink]="[player.registrationId]">
+          <mat-list-item *ngFor="let player of team.players" [routerLink]="['/players', player.registrationId]">
             <div class="player-item-content">
               <div class="player-profile-name">
                 <span>{{player.name}}</span>

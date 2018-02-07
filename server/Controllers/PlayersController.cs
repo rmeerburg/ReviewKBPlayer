@@ -19,12 +19,39 @@ namespace Server.Controllers
         }
 
         [HttpGet("api/players")]
-        public IEnumerable<object> Get()
+        public async Task<IEnumerable<PlayerListModel>> Get()
         {
-            return _context.Players.Include(p => p.Participations).ThenInclude(p => p.Team);
-        } 
+            var players = await _context.Players.Include(p => p.Participations).ThenInclude(p => p.Team).ToListAsync();
+            var teams = await _context.Teams.ToListAsync();
+
+            return players.Select(p =>
+            {
+                var model = new PlayerListModel
+                {
+                    Name = p.Name,
+                    RegistrationId = p.RegistrationId,
+                    PlayerId = p.PlayerId,
+                };
+                if(p.Participations.Any())
+                    model.CurrentTeam = teams.Find(t => t.TeamId == p.Participations.Last().TeamId).Name;
+
+                return model;
+            });
+        }
 
         [HttpGet("api/players/{id}")]
-        public Player Get(string id) =>  _context.Players.Include(p => p.Participations).ThenInclude(p => p.Team).Include(p => p.Participations).ThenInclude(p => p.Reviews).ThenInclude(r => r.SubmittedBy).FirstOrDefault(p => p.RegistrationId == id);
+        public Player Get(string id) => _context.Players
+            .Include(p => p.Participations).ThenInclude(p => p.Team)
+            .Include(p => p.Participations).ThenInclude(p => p.Reviews).ThenInclude(r => r.SubmittedBy)
+            .Include(p => p.Participations).ThenInclude(p => p.Season)
+            .FirstOrDefault(p => p.RegistrationId == id);
+    }
+
+    public class PlayerListModel
+    {
+        public string Name { get; set; }
+        public Guid PlayerId { get; set; }
+        public string CurrentTeam { get; set; }
+        public string RegistrationId { get; set; }
     }
 }

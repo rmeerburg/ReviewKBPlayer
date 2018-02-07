@@ -43,7 +43,10 @@ export class PlayerComponent implements OnInit {
       { data: Array.from(Array(6).keys()).map(_ => Math.floor(Math.random() * Math.floor(5)) + 1), label: '2017', },
     ];
     this.route.params.subscribe(p => {
-      this.playerService.getPlayer(p['id']).subscribe(player => this.player = player);
+      this.playerService.getPlayer(p['id']).subscribe(player => {
+        this.player = player;
+        this.player.participations.reverse();
+      });
     });
     this.ratingService.categories.forEach((v, k) => this.radarChartLabels.push(v));
   }

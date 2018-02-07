@@ -12,20 +12,25 @@ export class PlayersService {
     }
 
     public getPlayers() {
-        return this.http.get<Player[]>(`${environment.apiUrl}/players`);
+        return this.http.get<PlayerListModel[]>(`${environment.apiUrl}/players`);
     }
-
 }
 
 export class Player {
     playerId: string;
-    email: string;
     name: string;
     dob: Date;
     registrationId: string;
 
     participations: Participation[];
     reviews: Review[];
+}
+
+export class PlayerListModel {
+    name: string;
+    playerId: string;
+    registrationId: string;
+    currentTeam: string;
 }
 
 export class Participation {

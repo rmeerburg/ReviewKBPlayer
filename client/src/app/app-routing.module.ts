@@ -7,7 +7,7 @@ import { LoginComponent } from 'app/auth/login.component';
 
 export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, },
-    { path: 'players', component: PlayerListComponent, canActivate: [IsAuthenticatedGuard] },
+    { path: 'browse/:what', component: PlayerListComponent, canActivate: [IsAuthenticatedGuard] },
     { path: 'players/:id', component: PlayerComponent, canActivate: [IsAuthenticatedGuard] },
     { path: 'players/:id/review', component: RatePlayerComponent, canActivate: [IsAuthenticatedGuard] },
     { path: '', redirectTo: '/players', pathMatch: 'full' }
