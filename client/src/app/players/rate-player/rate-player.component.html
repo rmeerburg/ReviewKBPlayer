@@ -1,14 +1,4 @@
 <!-- <div *ngIf="player">
-  <div class="review-header" [routerLink]="['/players', player.registrationId]">
-    <div class="image-background">
-      <img class="profile-picture" *ngIf="player?.gender === 2" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
-      />
-      <img class="profile-picture" *ngIf="player?.gender === 3" src="https://vignette3.wikia.nocookie.net/strangerthings8338/images/e/ee/JaneDoeP.jpg/revision/latest?cb=20160717214233"
-      />
-    </div>
-    <span>{{player?.name}}</span>
-  </div>
-
   <mat-accordion class="example-headers-align">
     <mat-expansion-panel *ngFor="let rating of review?.ratings; let i = index" hideToggle="true" [expanded]="i === currentPanel"
       (opened)="this.currentPanel = i">
@@ -49,7 +39,15 @@
     <button mat-raised-button color="primary" [disabled]="!canSubmit()" (click)="submitReview()">Opslaan</button>
   </div>
 </div> -->
-
+<div class="review-header" [routerLink]="['/players', player.registrationId]">
+  <div class="image-background">
+    <img class="profile-picture" *ngIf="player?.gender === 2" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+    />
+    <img class="profile-picture" *ngIf="player?.gender === 3" src="https://vignette3.wikia.nocookie.net/strangerthings8338/images/e/ee/JaneDoeP.jpg/revision/latest?cb=20160717214233"
+    />
+  </div>
+  <span>{{player?.name}}</span>
+</div>
 <mat-vertical-stepper [linear]="true" #ratingStepper>
   <mat-step *ngFor="let rating of review?.ratings">
     <ng-template matStepLabel>{{getLabelForCategory(rating.category)}}</ng-template>

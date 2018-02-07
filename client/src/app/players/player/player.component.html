@@ -26,7 +26,7 @@
     <mat-tab-group mat-stretch-tabs selectedIndex="0">
       <mat-tab label="Over">
         <div class="player-details-tab">
-          <div class="player-history">
+          <div class="player-history" *ngIf="player?.participations.length">
             <ng-container *ngFor="let participation of player.participations; let first = first; let last = last">
               <div class="event">
                 <span class="team">{{participation.team.name}}</span>
@@ -37,9 +37,7 @@
             </ng-container>
           </div>
 
-          <hr *ngIf="player.participations.length" />
-
-          <div class="reviews">
+          <div class="player-details">
             <div class="reviews-title">Speler</div>
             <div class="review">
               <span>Team</span>
@@ -55,8 +53,6 @@
               <span>{{player?.registrationId}}</span>
             </div>
           </div>
-
-          <hr />
 
           <div class="reviews">
             <div class="reviews-title">Beoordelingen</div>

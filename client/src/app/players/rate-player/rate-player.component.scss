@@ -3,8 +3,12 @@
 
 .review-header {
   display: flex;
-  margin: 16px;
+  margin: 8px;
   align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-left: 16px;
+  margin-right: 16px;
+  padding: 8px;
 
   .image-background {
       display: flex;

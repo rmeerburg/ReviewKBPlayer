@@ -82,7 +82,8 @@
               flex-direction: row;
               justify-content: space-around;
               margin-top: 16px;
-              margin-bottom: 16px;
+              padding-bottom: 16px;
+              border-bottom: 1px solid #ddd;
 
               .event {
                   display: flex;
@@ -101,9 +102,13 @@
               }
           }
 
-          .reviews {
-              margin: 8px;
-
+          .player-details {
+              border-bottom: 1px solid #ddd;
+              margin-top: 16px;
+            }
+            
+          .reviews, .player-details {
+            margin-bottom: 16px;
               .reviews-title {
                 color: grey;
                 font-size: 13px;
