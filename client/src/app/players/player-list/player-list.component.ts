@@ -14,6 +14,7 @@ export class PlayerListComponent implements OnInit {
   private allPlayers: PlayerListModel[] = [];
   public teams: TeamVm[];
   public currentTabIndex: number = 0;
+  public isLoading: boolean = true;
 
   constructor(private readonly playerService: PlayersService, private readonly route: ActivatedRoute, private readonly router: Router) {
   }
@@ -67,6 +68,7 @@ export class PlayerListComponent implements OnInit {
       }
       return prev;
     }, [noTeam]).sort((l, r) => l.name > r.name ? 1 : -1);
+    this.isLoading = false;
   }
 }
 

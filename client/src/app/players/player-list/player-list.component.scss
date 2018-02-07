@@ -1,12 +1,14 @@
 .filter-box {
-    margin-top: 16px;
+    margin-top: 8px;
     margin-left: 16px;
     margin-right: 16px;
+    padding-bottom: 8px;
 
     display: flex;
     align-items: center;
 
     height: 32px;
+    border-bottom: 1px solid #ddd;
 
     .search-icon {
         margin-right: 16px;
@@ -23,6 +25,11 @@
         outline: none;
         font-size: 16px;
     }
+}
+
+.no-results {
+    text-align: center;
+    margin-top: 64px;
 }
 
 .player-item-content {

@@ -1,4 +1,4 @@
-<div *ngIf="players?.length">
+<div *ngIf="!isLoading">
   <mat-tab-group selectedIndex="0" mat-stretch-tabs [selectedIndex]="currentTabIndex" (selectedTabChange)="tabChanged()">
     <mat-tab label="Spelers">
       <div class="filter-box">
@@ -20,6 +20,8 @@
           </div>
         </mat-list-item>
       </mat-nav-list>
+
+      <div *ngIf="!players?.length" class="no-results">Er zijn geen spelers gevonden</div>
     </mat-tab>
     <mat-tab label="Teams">
       <mat-nav-list>
@@ -38,4 +40,4 @@
   </mat-tab-group>
 </div>
 
-<loader *ngIf="!players?.length"></loader>
+<loader *ngIf="isLoading"></loader>

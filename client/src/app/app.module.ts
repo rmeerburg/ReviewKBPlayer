@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, MatStepperModule, MatSnackBarModule, } from '@angular/material';
 import { MomentModule } from 'angular2-moment';
@@ -22,7 +22,9 @@ import { IsAuthenticatedGuard } from 'app/infrastructure/is-authenticated.guard'
 import { LoginComponent } from 'app/auth/login.component';
 import { AuthenticationService } from 'app/infrastructure/authentication.service';
 import { TokenInterceptor } from 'app/infrastructure/token.interceptor';
+import { CacheInterceptor } from 'app/infrastructure/cache.interceptor';
 import { environment } from 'environments/environment';
+import { CustomReuseStrategy } from 'app/infrastructure/reuse-strategy';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,13 @@ import { environment } from 'environments/environment';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
+      multi: true
+    },
+    {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
   ],
   bootstrap: [AppComponent]
 })
