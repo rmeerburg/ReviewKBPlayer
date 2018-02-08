@@ -7,4 +7,6 @@
         <span>CKV Oranje Wit - TalentTrack</span>
     </div>
 </mat-toolbar>
-<router-outlet></router-outlet>
+<main [@routerAnimation]="getRouteAnimation(route)">
+    <router-outlet #route="outlet"></router-outlet>
+</main>
