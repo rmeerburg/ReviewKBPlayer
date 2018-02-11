@@ -39,16 +39,16 @@
     <button mat-raised-button color="primary" [disabled]="!canSubmit()" (click)="submitReview()">Opslaan</button>
   </div>
 </div> -->
-<div class="review-header" [routerLink]="['/players', player.registrationId]">
-  <div class="image-background">
-    <img class="profile-picture" *ngIf="player?.gender === 2" src="/assets/unknown_avatar_male.png"
-    />
-    <img class="profile-picture" *ngIf="player?.gender === 3" src="/assets/unknown_avatar_female.jpg"
-    />
+<button mat-button class="player-header-button">
+  <div class="review-header" [routerLink]="['/browse/players', player?.registrationId]">
+    <div class="image-background">
+      <img class="profile-picture" *ngIf="player?.gender === 2" src="/assets/unknown_avatar_male.png" />
+      <img class="profile-picture" *ngIf="player?.gender === 3" src="/assets/unknown_avatar_female.jpg" />
+    </div>
+    <span>{{player?.name}}</span>
   </div>
-  <span>{{player?.name}}</span>
-</div>
-<mat-vertical-stepper [linear]="true" #ratingStepper>
+</button>
+<mat-vertical-stepper [linear]="true">
   <mat-step *ngFor="let rating of review?.ratings">
     <ng-template matStepLabel>{{getLabelForCategory(rating.category)}}</ng-template>
     <div class="rating-options">
@@ -62,11 +62,14 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Klaar</ng-template>
-    <mat-form-field class="notes">
-      <textarea [(ngModel)]="review && review.notes" matInput matTextareaAutosize placeholder="Voeg eventueel een notitie toe"></textarea>
-    </mat-form-field>
-    <div class="submit-review">
-      <button mat-raised-button color="primary" [disabled]="!canSubmit()" (click)="submitReview()">Opslaan</button>
+    <div class="done-container">
+      <mat-form-field class="notes">
+        <textarea [(ngModel)]="review && review.notes" matInput matTextareaAutosize placeholder="Voeg eventueel een notitie toe"></textarea>
+      </mat-form-field>
+      <div class="submit-review">
+        <button mat-raised-button color="primary" [disabled]="!canSubmit()" (click)="submitReview()">Opslaan</button>
+      </div>
+
     </div>
     <!-- <button mat-button matStepperNext>
       <ng-container *ngIf="review?.notes">Volgende</ng-container>

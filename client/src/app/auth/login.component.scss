@@ -1,9 +1,11 @@
 @import '~@angular/material/theming';
 @import '~styles/theming';
 
-.container {
-    height: 100%;
+:host {
     background-color: mat-color($primary);
+}
+
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -15,9 +15,7 @@ export class CacheInterceptor implements HttpInterceptor {
         if (cachedResponse) {
             return Observable.of(cachedResponse);
         }
-        return next.handle(request).pipe(tap(//event =>
-
-            event => {
+        return next.handle(request).pipe(tap(event => {
             if (event instanceof HttpResponse) {
                 this.cache[request.urlWithParams] = event;
             }

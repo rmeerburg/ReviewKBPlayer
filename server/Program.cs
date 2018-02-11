@@ -26,7 +26,5 @@ namespace server
 
 // todo
 // fix up player avatars
-// show existing reviews for player
 // summarize reviews into radar per season
 // localization
-// client side caching
