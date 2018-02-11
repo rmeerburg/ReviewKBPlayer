@@ -14,13 +14,12 @@ mat-toolbar {
     }
 }
 
-main {
-    flex: 1;
-    position: relative;
-  }
-
-  /deep/ router-outlet ~ * {
+/deep/ router-outlet ~ * {
     position: absolute;
     width: 100%;
-    height: 100%;
-  }
+    height: calc(100vh - 56px); // full height minus the height of the toolbar
+}
+
+.hamburger {
+    outline: none;
+}

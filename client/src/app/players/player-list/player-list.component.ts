@@ -16,17 +16,19 @@ export class PlayerListComponent implements OnInit {
   public currentTabIndex: number = 0;
   public isLoading: boolean = true;
 
+  private tabMapping = {
+    'players': 0,
+    'teams': 1,
+    1 : 'players',
+    0 : 'teams',
+  }
+
   constructor(private readonly playerService: PlayersService, private readonly route: ActivatedRoute, private readonly router: Router) {
   }
 
   public async ngOnInit() {
     this.route.params.subscribe(params => {
-      const what = <string>params['what'];
-      if(what === 'players') {
-        this.currentTabIndex = 0;
-      } else {
-        this.currentTabIndex = 1;
-      }
+      this.currentTabIndex = this.tabMapping[<string>params['what']];
     });
     this.playerService.getPlayers().subscribe(data => this.setPlayers(data));
   }
@@ -34,6 +36,7 @@ export class PlayerListComponent implements OnInit {
   public filter() {
     if(!this.filterTerm) {
       this.players = this.allPlayers;
+      return;
     }
     this.players = this.allPlayers.filter(p => p.name.toLowerCase().indexOf(this.filterTerm.toLowerCase()) > -1);
   }
@@ -44,7 +47,7 @@ export class PlayerListComponent implements OnInit {
   }
 
   public tabChanged() {
-    this.router.navigate(['browse', this.currentTabIndex === 0 ? 'teams' : 'players'], { replaceUrl: true, });
+    this.router.navigate(['/browse', this.tabMapping[this.currentTabIndex]], { replaceUrl: true, });
   }
 
   private setPlayers(players: PlayerListModel[]) {

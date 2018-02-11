@@ -29,7 +29,7 @@ export class RatingService {
         return this.http.get<Level[]>(`${environment.apiUrl}/levels`).toPromise();
     }
 
-    public async createNewReview() {
+    public createNewReview() {
         let review = new Review();
         for (let item in Category) {
             if (!isNaN(Number.parseInt(item)) && Number(item)) {

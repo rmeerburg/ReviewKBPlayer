@@ -1,6 +1,10 @@
 @import '~@angular/material/theming';
 @import '~styles/theming';
 
+.player-header-button {
+  width: 100%;
+}
+
 .review-header {
   display: flex;
   margin: 8px;
@@ -9,6 +13,7 @@
   margin-left: 16px;
   margin-right: 16px;
   padding: 8px;
+  outline: none;
 
   .image-background {
       display: flex;
@@ -23,7 +28,6 @@
         width: 40px;
     }
   }
-
 
   .profile-picture {
       border-radius: 50%;
@@ -85,8 +89,11 @@
       }
   }
 
-  .notes {
-    width: 100%;
+  .done-container {
+    margin-right: 36px; // am adds a 36px margin left, use this to center content
+    .notes {
+      width: 100%;
+    }
   }
 
 .example-headers-align .mat-expansion-panel-header-title, 

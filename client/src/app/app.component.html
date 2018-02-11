@@ -1,7 +1,8 @@
-<ngx-loading-bar [includeSpinner]="false"></ngx-loading-bar>
 <mat-toolbar color="primary">
-    <button mat-icon-button routerLink="/browse/players">
-        <mat-icon>menu</mat-icon>
+    <button class="hamburger hamburger--arrowturn" type="button" [class.is-active]="canNavigateToParent" (click)="navClicked()">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
     </button>
     <div class="toolbar-text">
         <span>CKV Oranje Wit - TalentTrack</span>
@@ -10,3 +11,4 @@
 <main [@routerAnimation]="getRouteAnimation(route)">
     <router-outlet #route="outlet"></router-outlet>
 </main>
+<ngx-loading-bar [includeSpinner]="false"></ngx-loading-bar>

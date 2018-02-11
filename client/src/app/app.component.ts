@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   trigger,
   state,
@@ -8,6 +8,8 @@ import {
   query,
   group
 } from '@angular/animations';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -41,11 +43,27 @@ import {
     ])
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  public canNavigateToParent: boolean = false;
+
+  constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly loc: Location) {
+  }
 
   // change the animation state
-  getRouteAnimation(outlet) {
+  public getRouteAnimation(outlet) {
     return outlet.activatedRouteData.animation
   }
 
+  public ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const navigationEndEvent = <NavigationEnd>event;
+        this.canNavigateToParent = !/^\/browse\/(?:players|teams)$/.test(navigationEndEvent.url);
+      }
+    });
+  }
+
+  public navClicked() {
+    this.router.navigate(['../'], { relativeTo: this.router.routerState.root.firstChild, });
+  }
 }

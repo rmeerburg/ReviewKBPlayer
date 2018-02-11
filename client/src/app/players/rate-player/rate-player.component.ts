@@ -14,7 +14,6 @@ export class RatePlayerComponent implements OnInit {
   public review: Review;
   public levels: Level[];
   public notes_expanded: boolean = false;
-  public currentPanel = 0;
   public player: Player;
 
   constructor(private readonly ratingService: RatingService, private readonly playersService: PlayersService, private readonly router: Router, private readonly route: ActivatedRoute, private readonly snackBar: MatSnackBar) {
@@ -22,7 +21,7 @@ export class RatePlayerComponent implements OnInit {
 
   public async ngOnInit() {
     this.levels = await this.ratingService.getLevels();
-    this.review = await this.ratingService.createNewReview();
+    this.review = this.ratingService.createNewReview();
 
     this.route.params.subscribe(params => {
       this.playersService.getPlayer(params['id']).subscribe(player => {
@@ -39,7 +38,6 @@ export class RatePlayerComponent implements OnInit {
   public rate(lvl: Level) {
     let applicableRating = this.review.ratings.find(r => r.category == lvl.category);
     applicableRating.level = lvl;
-    this.currentPanel++;
   }
 
   public canSubmit() {
@@ -52,7 +50,7 @@ export class RatePlayerComponent implements OnInit {
 
   public async submitReview() {
     await this.ratingService.saveReview(this.review);
-    this.router.navigate(['/players', this.player.registrationId]);
+    this.router.navigate(['/browse/players', this.player.registrationId]);
   }
 
   public showInfoFor(lvl: Level) {

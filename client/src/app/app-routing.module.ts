@@ -8,8 +8,8 @@ import { LoginComponent } from 'app/auth/login.component';
 export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, },
     { path: 'browse/:what', component: PlayerListComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'browse', } },
-    { path: 'players/:id', component: PlayerComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'player', } },
-    { path: 'players/:id/review', component: RatePlayerComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'review', } },
+    { path: 'browse/players/:id', component: PlayerComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'player', } },
+    { path: 'browse/players/:id/review', component: RatePlayerComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'review', } },
     { path: '', redirectTo: '/browse/players', pathMatch: 'full' }
     // { path: '**', component: PageNotFoundComponent }
 ];
