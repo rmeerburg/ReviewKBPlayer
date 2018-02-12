@@ -7,19 +7,23 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
     private cache: { [name: string]: HttpEvent<any> } = {};
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (request.method !== "GET") {
             return next.handle(request);
         }
         const cachedResponse = this.cache[request.urlWithParams] || null;
         if (cachedResponse) {
-            return Observable.of(cachedResponse);
+            return Observable.of(this.copyHttpResponse(<any>cachedResponse));
         }
         return next.handle(request).pipe(tap(event => {
             if (event instanceof HttpResponse) {
-                this.cache[request.urlWithParams] = event;
+                this.cache[request.urlWithParams] = this.copyHttpResponse(event);
             }
             return event;
         }));
+    }
+
+    private copyHttpResponse(response: HttpResponse<any>) {
+        return Object.assign(Object.create(HttpResponse.prototype), JSON.parse(JSON.stringify(response)));
     }
 }
