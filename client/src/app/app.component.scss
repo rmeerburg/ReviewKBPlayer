@@ -1,6 +1,7 @@
 mat-toolbar {
     color: white !important;
     padding-left: 0px;
+    padding-right: 0;
 
     position: sticky;
     position: -webkit-sticky; /* For macOS/iOS Safari */
@@ -22,4 +23,7 @@ mat-toolbar {
 
 .hamburger {
     outline: none;
+    padding: 6px;
+    padding-top: 10px;
+    padding-left: 12px;
 }

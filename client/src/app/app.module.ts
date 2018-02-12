@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, MatStepperModule, MatSnackBarModule, } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, MatStepperModule, MatSnackBarModule, MatMenuModule, } from '@angular/material';
 import { MomentModule } from 'angular2-moment';
 import { ChartsModule } from 'ng2-charts';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -50,6 +50,7 @@ import { CustomReuseStrategy } from 'app/infrastructure/reuse-strategy';
     MatIconModule,
     MatStepperModule,
     MatSnackBarModule,
+    MatMenuModule,
     FormsModule,
     HttpClientModule,
     ChartsModule,

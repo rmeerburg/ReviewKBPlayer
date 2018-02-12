@@ -10,6 +10,7 @@ import {
 } from '@angular/animations';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
+import { AuthenticationService } from './infrastructure/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -46,7 +47,7 @@ import { Location } from '@angular/common';
 export class AppComponent implements OnInit {
   public canNavigateToParent: boolean = false;
 
-  constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly loc: Location) {
+  constructor(private readonly router: Router, private readonly auth: AuthenticationService,) {
   }
 
   // change the animation state
@@ -58,12 +59,16 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const navigationEndEvent = <NavigationEnd>event;
-        this.canNavigateToParent = !/^\/browse\/(?:players|teams)$/.test(navigationEndEvent.url);
+        this.canNavigateToParent = !/^(\/|\/browse\/(?:players|teams))$/.test(navigationEndEvent.url);
       }
     });
   }
 
   public navClicked() {
     this.router.navigate(['../'], { relativeTo: this.router.routerState.root.firstChild, });
+  }
+
+  public signOut() {
+    this.auth.signOut();
   }
 }

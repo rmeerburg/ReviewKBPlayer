@@ -29,7 +29,7 @@ export class TokenInterceptor implements HttpInterceptor {
             errorMsg = `Backend returned code ${err.status}, body was: ${err.error}`;
         }
         if (err.status === 401) {
-            this.injector.get(AuthenticationService).logout();
+            this.injector.get(AuthenticationService).signOut();
         }
         console.error(errorMsg);
         return Observable.throw(errorMsg);

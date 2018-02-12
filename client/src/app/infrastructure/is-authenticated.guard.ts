@@ -8,7 +8,7 @@ export class IsAuthenticatedGuard implements CanActivate {
 
   canActivate() {
     if(!this.auth.isAuthenticated()) {
-       this.auth.logout();
+       this.auth.signOut();
        return false;
     }
     return true;

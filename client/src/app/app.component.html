@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-    <button class="hamburger hamburger--arrowturn" type="button" [class.is-active]="canNavigateToParent" (click)="navClicked()">
+    <button *ngIf="auth.isAuthenticated()" class="hamburger hamburger--arrowturn" type="button" [class.is-active]="canNavigateToParent" (click)="navClicked()">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
@@ -7,6 +7,19 @@
     <div class="toolbar-text">
         <span>CKV Oranje Wit - TalentTrack</span>
     </div>
+    <button *ngIf="auth.isAuthenticated()" mat-icon-button type="button" [matMenuTriggerFor]="more_menu">
+        <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #more_menu="matMenu">
+        <button mat-menu-item (click)="signOut()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Uitloggen</span>
+        </button>
+        <button mat-menu-item disabled>
+            <mat-icon>filter_vintage</mat-icon>
+            <span>Wereldvrede</span>
+        </button>
+    </mat-menu>
 </mat-toolbar>
 <main [@routerAnimation]="getRouteAnimation(route)">
     <router-outlet #route="outlet"></router-outlet>

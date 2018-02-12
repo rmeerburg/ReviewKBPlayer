@@ -20,7 +20,7 @@ export class AuthenticationService {
     return !!this.token;
   }
 
-  public logout() {
+  public signOut() {
     localStorage.removeItem(this._tokenKey);
     this.route.navigate(['/login']);
   }
