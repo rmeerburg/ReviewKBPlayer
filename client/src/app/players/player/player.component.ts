@@ -37,7 +37,7 @@ export class PlayerComponent implements OnInit {
 
   constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService, private readonly route: ActivatedRoute) { }
 
-  async ngOnInit() {
+  public async ngOnInit() {
     this.radarChartData = [
       { data: Array.from(Array(6).keys()).map(_ => Math.floor(Math.random() * Math.floor(5)) + 1), label: '2016', },
       { data: Array.from(Array(6).keys()).map(_ => Math.floor(Math.random() * Math.floor(5)) + 1), label: '2017', },
@@ -48,6 +48,7 @@ export class PlayerComponent implements OnInit {
         this.player.participations.reverse();
       });
     });
-    this.ratingService.categories.forEach((v, k) => this.radarChartLabels.push(v));
+    const categories = await this.ratingService.getReviewCategories();
+    categories.forEach(cat => this.radarChartLabels.push(cat.categoryName));
   }
 }

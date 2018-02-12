@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Server.Data
 {
-    public class KbContext : IdentityDbContext<ApplicationUser>
+    public class TalentTrackContext : IdentityDbContext<ApplicationUser>
     {
-        public KbContext(DbContextOptions<KbContext> options)
+        public TalentTrackContext(DbContextOptions<TalentTrackContext> options)
             : base(options)
         {
         }
@@ -24,6 +24,7 @@ namespace Server.Data
         public DbSet<Level> Levels { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Participation> Participations { get; set; }
+        public DbSet<ReviewCategory> ReviewCategories { get; set; }
 
         public async Task EnsureSeeded(string seedFilesDirectory)
         {
@@ -68,12 +69,14 @@ namespace Server.Data
             }
 
             var levels = new string[] { "Slecht", "Zwak", "Gemiddeld", "Goed", "Uitmuntend", };
-            foreach (Category cat in Enum.GetValues(typeof(Category)).Cast<Category>().Where(cat => cat != 0))
+            foreach (var reviewCategoryName in new [] { "Aanvallen", "Verdedigen", "Tactisch", "Technisch", "Fysiek", "Mentaal", })
             {
+                var newCategory = new ReviewCategory { Name = reviewCategoryName };
+                ReviewCategories.Add(newCategory);
                 i = 1;
                 foreach (var lvl in levels)
                 {
-                    Levels.Add(new Level { Category = cat, ShortDescription = lvl, Description = lvl, Score = i++, });
+                    Levels.Add(new Level { Category = newCategory, ShortDescription = lvl, Description = lvl, Score = i++, });
                 }
             }
 

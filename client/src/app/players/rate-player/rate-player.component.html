@@ -50,10 +50,10 @@
 </button>
 <mat-vertical-stepper [linear]="true">
   <mat-step *ngFor="let rating of review?.ratings">
-    <ng-template matStepLabel>{{getLabelForCategory(rating.category)}}</ng-template>
+    <ng-template matStepLabel>{{getCategory(rating.categoryId).categoryName}}</ng-template>
     <div class="rating-options">
-      <div *ngFor="let level of getLevelsForRating(rating)" class="rating-button-container">
-        <button matStepperNext mat-raised-button class="rating-button" [class.selected]="level === rating.level" (click)="rate(level)">{{level.description}}</button>
+      <div *ngFor="let level of getCategory(rating.categoryId).levels" class="rating-button-container">
+        <button matStepperNext mat-raised-button class="rating-button" [class.selected]="level.levelId === rating.levelId" (click)="rate(level)">{{level.description}}</button>
         <button mat-icon-button class="info-button" (click)="showInfoFor(level)">
           <mat-icon>info_outline</mat-icon>
         </button>

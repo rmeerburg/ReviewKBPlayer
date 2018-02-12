@@ -7,11 +7,12 @@ namespace Server.Models
     {
         public Guid LevelId { get; set; }
 
-        public Category Category { get; set; }
+        public Guid ReviewCategoryId { get; set; }
+        public ReviewCategory Category { get; set; }
 
         public string ShortDescription { get; set; }
-        public string Description { get; set; } // detailed text
+        public string Description { get; set; }
 
-        public int Score { get; set; } // 1 - 15
+        public int Score { get; set; }
     }
 }

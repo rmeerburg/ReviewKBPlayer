@@ -15,29 +15,20 @@ export class RatingService {
     };
 
     constructor(private readonly http: HttpClient) {
-        this.categories.set(Category.Attack, "Aanvallen");
-        this.categories.set(Category.Defense, "Verdedigen");
-        this.categories.set(Category.Fysical, "Fysiek");
-        this.categories.set(Category.Mental, "Mentaal");
-        this.categories.set(Category.Tactical, "Tactisch");
-        this.categories.set(Category.Technical, "Technisch");
     }
 
-    public readonly categories: Map<Category, string> = new Map<Category, string>();
-
-    public async getLevels() {
-        return this.http.get<Level[]>(`${environment.apiUrl}/levels`).toPromise();
+    public async getReviewCategories() {
+        return this.http.get<ReviewCategory[]>(`${environment.apiUrl}/reviewcategories`).toPromise();
     }
 
-    public createNewReview() {
+    public async createNewReview() {
         let review = new Review();
-        for (let item in Category) {
-            if (!isNaN(Number.parseInt(item)) && Number(item)) {
-                let newRating = new Rating();
-                newRating.category = <Category>Number(item);
-                review.ratings.push(newRating);
-            }
-        }
+        const categories = await this.getReviewCategories();
+        review.ratings = categories.map(cat => {
+            var newRating = new Rating();
+            newRating.categoryId = cat.id;
+            return newRating;
+        });
         return review;
     }
 
@@ -54,23 +45,20 @@ export class Review {
 }
 
 export class Rating {
-    level: Level;
-    category: Category;
+    levelId: string;
+    categoryId: string;
 }
 
 export class Level {
+    levelId: string;
+    reviewCategoryId: string;
     description: string;
     shortDescription: string;
     score: number;
-    category: Category;
 }
 
-export enum Category {
-    Unknown,
-    Attack,
-    Defense,
-    Tactical,
-    Technical,
-    Fysical,
-    Mental,
+export class ReviewCategory {
+    id: string;
+    categoryName: string;
+    levels: Level[];
 }

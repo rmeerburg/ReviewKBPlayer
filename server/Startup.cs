@@ -53,7 +53,7 @@ namespace server
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
             });
-            services.AddDbContext<KbContext>(options =>
+            services.AddDbContext<TalentTrackContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
@@ -66,7 +66,7 @@ namespace server
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             })
-                .AddEntityFrameworkStores<KbContext>()
+                .AddEntityFrameworkStores<TalentTrackContext>()
                 .AddDefaultTokenProviders();
 
             services.AddCors(options =>
@@ -150,7 +150,7 @@ namespace server
 
             using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var dbContext = scope.ServiceProvider.GetService<KbContext>();
+                var dbContext = scope.ServiceProvider.GetService<TalentTrackContext>();
                 await dbContext.EnsureSeeded(Configuration["SeedFilesDirectory"]);
             }
         }

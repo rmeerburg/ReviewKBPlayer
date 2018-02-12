@@ -18,11 +18,11 @@ namespace Server.Controllers
     public class AuthenticationController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly KbContext _context;
+        private readonly TalentTrackContext _context;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
 
-        public AuthenticationController(KbContext context, UserManager<ApplicationUser> userManager, JwtIssuerOptions jwtOptions, IJwtFactory jwtFactory)
+        public AuthenticationController(TalentTrackContext context, UserManager<ApplicationUser> userManager, JwtIssuerOptions jwtOptions, IJwtFactory jwtFactory)
         {
             _context = context;
             _userManager = userManager;
@@ -109,10 +109,4 @@ namespace Server.Controllers
         public string Email { get; set; }
         public string Password { get; set; }
     }
-
-    // public class RegistrationViewModel
-    // {
-    //     public string Email { get; set; }
-    //     public string Password { get; set; }
-    // }
 }

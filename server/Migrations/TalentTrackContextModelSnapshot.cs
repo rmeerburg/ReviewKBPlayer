@@ -11,14 +11,14 @@ using System;
 
 namespace server.Migrations
 {
-    [DbContext(typeof(KbContext))]
-    partial class KbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TalentTrackContext))]
+    partial class TalentTrackContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -185,15 +185,17 @@ namespace server.Migrations
                     b.Property<Guid>("LevelId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Category");
-
                     b.Property<string>("Description");
+
+                    b.Property<Guid>("ReviewCategoryId");
 
                     b.Property<int>("Score");
 
                     b.Property<string>("ShortDescription");
 
                     b.HasKey("LevelId");
+
+                    b.HasIndex("ReviewCategoryId");
 
                     b.ToTable("Levels");
                 });
@@ -282,6 +284,20 @@ namespace server.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("Server.Models.ReviewCategory", b =>
+                {
+                    b.Property<Guid>("ReviewCategoryId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ReviewCategoryId");
+
+                    b.ToTable("ReviewCategories");
+                });
+
             modelBuilder.Entity("Server.Models.Season", b =>
                 {
                     b.Property<Guid>("SeasonId")
@@ -352,6 +368,14 @@ namespace server.Migrations
                     b.HasOne("Server.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Server.Models.Level", b =>
+                {
+                    b.HasOne("Server.Models.ReviewCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("ReviewCategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

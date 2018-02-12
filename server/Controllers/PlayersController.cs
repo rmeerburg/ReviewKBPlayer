@@ -11,9 +11,9 @@ namespace Server.Controllers
 {
     public class PlayersController : Controller
     {
-        private readonly KbContext _context;
+        private readonly TalentTrackContext _context;
 
-        public PlayersController(KbContext context)
+        public PlayersController(TalentTrackContext context)
         {
             _context = context;
         }
