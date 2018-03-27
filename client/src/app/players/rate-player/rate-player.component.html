@@ -42,8 +42,7 @@
 <button mat-button class="player-header-button">
   <div class="review-header" [routerLink]="['/browse/players', player?.registrationId]">
     <div class="image-background">
-      <img class="profile-picture" *ngIf="player?.gender === 2" src="/assets/unknown_avatar_male.png" />
-      <img class="profile-picture" *ngIf="player?.gender === 3" src="/assets/unknown_avatar_female.jpg" />
+      <img class="profile-picture" src="/assets/player_photos/small/{{player?.registrationId}}.jpg" (error)="setFallbackImage($event)" />
     </div>
     <span>{{player?.name}}</span>
   </div>

@@ -52,4 +52,8 @@ export class RatePlayerComponent implements OnInit {
   public showInfoFor(lvl: Level) {
     this.snackBar.open(`${lvl.description}: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`, "sluiten", { duration: 5000, });
   }
+
+  public setFallbackImage(event: any) {
+    event.target.src = `/assets/player_photos/fallback/unknown_avatar_${this.player.gender}.png`;
+  }
 }
