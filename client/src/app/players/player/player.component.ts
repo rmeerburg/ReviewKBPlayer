@@ -51,4 +51,8 @@ export class PlayerComponent implements OnInit {
     const categories = await this.ratingService.getReviewCategories();
     categories.forEach(cat => this.radarChartLabels.push(cat.categoryName));
   }
+
+  public setFallbackImage(event: any) {
+    event.target.src = `/assets/player_photos/fallback/unknown_avatar_${this.player.gender}.png`;
+  }
 }

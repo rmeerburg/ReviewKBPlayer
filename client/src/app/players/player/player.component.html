@@ -6,11 +6,8 @@
         <mat-icon>rate_review</mat-icon>
       </button>
 
-      <div class="image-background">
-        <img class="profile-picture" *ngIf="player?.gender === 2" src="/assets/unknown_avatar_male.png"
-        />
-        <img class="profile-picture" *ngIf="player?.gender === 3" src="/assets/unknown_avatar_female.jpg"
-        />
+      <div class="image-background" routerLink="photo">
+          <img class="profile-picture" src="/assets/player_photos/small/{{player?.registrationId}}.jpg" (error)="setFallbackImage($event)" />
       </div>
 
       <button mat-fab class="hidden-button">

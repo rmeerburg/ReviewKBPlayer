@@ -25,6 +25,7 @@ import { TokenInterceptor } from 'app/infrastructure/token.interceptor';
 import { CacheInterceptor } from 'app/infrastructure/cache.interceptor';
 import { environment } from 'environments/environment';
 import { CustomReuseStrategy } from 'app/infrastructure/reuse-strategy';
+import { PlayerImageComponent } from 'app/players/player/player-image.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CustomReuseStrategy } from 'app/infrastructure/reuse-strategy';
     LoginComponent,
     RatePlayerComponent,
     PlayerComponent,
+    PlayerImageComponent,
     PlayerListComponent,
     LoaderComponent,
   ],
