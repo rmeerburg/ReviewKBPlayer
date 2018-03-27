@@ -4,6 +4,7 @@ import { PlayersService, Player } from 'app/services/players.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debug } from 'util';
 import { MatSnackBar } from '@angular/material';
+import { CacheInterceptor } from 'app/infrastructure/cache.interceptor';
 
 @Component({
   templateUrl: './rate-player.component.html',
@@ -16,7 +17,13 @@ export class RatePlayerComponent implements OnInit {
   public notes_expanded: boolean = false;
   public player: Player;
 
-  constructor(private readonly ratingService: RatingService, private readonly playersService: PlayersService, private readonly router: Router, private readonly route: ActivatedRoute, private readonly snackBar: MatSnackBar) {
+  constructor(
+    private readonly ratingService: RatingService, 
+    private readonly playersService: PlayersService, 
+    private readonly router: Router,
+    private readonly route: ActivatedRoute, 
+    private readonly snackBar: MatSnackBar, 
+    private readonly cache: CacheInterceptor) {
   }
 
   public async ngOnInit() {
@@ -46,6 +53,7 @@ export class RatePlayerComponent implements OnInit {
 
   public async submitReview() {
     await this.ratingService.saveReview(this.review);
+    this.cache.invalidateCacheItem(`players/${this.player.registrationId}`);
     this.router.navigate(['/browse/players', this.player.registrationId]);
   }
 

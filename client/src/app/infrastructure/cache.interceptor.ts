@@ -3,6 +3,7 @@ import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpResponse } fr
 import { Observable } from "rxjs/Observable";
 import { map, filter, tap } from 'rxjs/operators';
 import 'rxjs/add/observable/of';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
@@ -25,5 +26,9 @@ export class CacheInterceptor implements HttpInterceptor {
 
     private copyHttpResponse(response: HttpResponse<any>) {
         return Object.assign(Object.create(HttpResponse.prototype), JSON.parse(JSON.stringify(response)));
+    }
+
+    public invalidateCacheItem(itemPath: string) {
+        delete this.cache[`${environment.apiUrl}/${itemPath}`];
     }
 }

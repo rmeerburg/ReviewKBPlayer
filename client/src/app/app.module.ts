@@ -64,9 +64,10 @@ import { PlayerImageComponent } from 'app/players/player/player-image.component'
     MatIconRegistry, 
     IsAuthenticatedGuard, 
     AuthenticationService,
+    CacheInterceptor,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CacheInterceptor,
+      useExisting: CacheInterceptor,
       multi: true
     },
     {
