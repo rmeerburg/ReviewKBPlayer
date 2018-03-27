@@ -7,11 +7,13 @@ mat-toolbar {
     position: -webkit-sticky; /* For macOS/iOS Safari */
     top: 0; /* Sets the sticky toolbar to be on top */
     z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+    box-shadow: 0 1px 5px 0 rgba(127,127,127,.3);
 
     .toolbar-text {
         width: 100%;
         display: flex;
         justify-content: center;
+        min-width: 0px;
     }
 }
 
