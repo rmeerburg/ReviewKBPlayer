@@ -40,11 +40,18 @@ namespace Server.Controllers
         }
 
         [HttpGet("api/players/{id}")]
-        public Player Get(string id) => _context.Players
-            .Include(p => p.Participations).ThenInclude(p => p.Team)
-            .Include(p => p.Participations).ThenInclude(p => p.Reviews).ThenInclude(r => r.SubmittedBy)
-            .Include(p => p.Participations).ThenInclude(p => p.Season)
-            .FirstOrDefault(p => p.RegistrationId == id);
+        public IActionResult Get(string id)
+        {
+            var player = _context.Players
+                .Include(p => p.Participations).ThenInclude(p => p.Team)
+                .Include(p => p.Participations).ThenInclude(p => p.Reviews).ThenInclude(r => r.SubmittedBy)
+                .Include(p => p.Participations).ThenInclude(p => p.Season)
+                .FirstOrDefault(p => p.RegistrationId == id);
+
+            if(player != null)
+                return Ok(player);
+            return NotFound();
+        }
     }
 
     public class PlayerListModel

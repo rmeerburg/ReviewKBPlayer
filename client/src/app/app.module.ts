@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, MatStepperModule, MatSnackBarModule, MatMenuModule, } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, MatStepperModule, MatSnackBarModule, MatMenuModule, MatDialogModule, } from '@angular/material';
 import { MomentModule } from 'angular2-moment';
 import { ChartsModule } from 'ng2-charts';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -26,6 +26,8 @@ import { CacheInterceptor } from 'app/infrastructure/cache.interceptor';
 import { environment } from 'environments/environment';
 import { CustomReuseStrategy } from 'app/infrastructure/reuse-strategy';
 import { PlayerImageComponent } from 'app/players/player/player-image.component';
+import { SimpleDialogComponent } from './common/dialogs/simple/simple-dialog.component';
+import { SimpleDialogService } from 'app/services/simple-dialog.service';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { PlayerImageComponent } from 'app/players/player/player-image.component'
     PlayerImageComponent,
     PlayerListComponent,
     LoaderComponent,
+    SimpleDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { PlayerImageComponent } from 'app/players/player/player-image.component'
     MatStepperModule,
     MatSnackBarModule,
     MatMenuModule,
+    MatDialogModule,
     FormsModule,
     HttpClientModule,
     ChartsModule,
@@ -61,6 +65,7 @@ import { PlayerImageComponent } from 'app/players/player/player-image.component'
   providers: [
     RatingService,
     PlayersService, 
+    SimpleDialogService,
     MatIconRegistry, 
     IsAuthenticatedGuard, 
     AuthenticationService,
@@ -77,7 +82,10 @@ import { PlayerImageComponent } from 'app/players/player/player-image.component'
     },
     {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    SimpleDialogComponent,
+  ]
 })
 export class AppModule {
   constructor(public matIconRegistry: MatIconRegistry) {

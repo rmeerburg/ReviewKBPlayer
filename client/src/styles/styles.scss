@@ -11,3 +11,8 @@ html, body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+// setup a class that overrides some default styles for a mat-dialog
+.full-width-dialog .mat-dialog-container {
+    padding: 0;
+}

@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { RatingService } from 'app/services/rating.service';
 import { PlayersService, Player } from 'app/services/players.service';
+import { SimpleDialogComponent } from '../../common/dialogs/simple/simple-dialog.component';
+import { SimpleDialogService } from '../../services/simple-dialog.service';
 
 @Component({
   selector: 'app-player',
@@ -28,14 +31,14 @@ export class PlayerComponent implements OnInit {
   }
 
   public readonly radarChartLabels: string[] = [];
- 
-  public radarChartData:any = [
-    {data: [3, 3, 2, 5, 2, 3,], label: '2016'},
-    {data: [4, 2, 4, 5, 3, 3,], label: '2017'}
-  ];
-  public radarChartType:string = 'radar';
 
-  constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService, private readonly route: ActivatedRoute) { }
+  public radarChartData: any = [
+    { data: [3, 3, 2, 5, 2, 3,], label: '2016' },
+    { data: [4, 2, 4, 5, 3, 3,], label: '2017' }
+  ];
+  public radarChartType: string = 'radar';
+
+  constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService, private readonly route: ActivatedRoute, private readonly dialogService: SimpleDialogService, private readonly router: Router) { }
 
   public async ngOnInit() {
     this.radarChartData = [
@@ -46,6 +49,12 @@ export class PlayerComponent implements OnInit {
       this.playerService.getPlayer(p['id']).subscribe(player => {
         this.player = player;
         this.player.participations.reverse();
+      }, (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          this.dialogService.show({ title: 'Speler niet gevonden', message: `Speler met registratie '${p['id']}' bestaat niet` }).subscribe(result => {
+            this.router.navigate(['/browse/players']);
+          });
+        }
       });
     });
     const categories = await this.ratingService.getReviewCategories();

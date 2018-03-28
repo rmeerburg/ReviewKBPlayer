@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthenticationService } from 'app/infrastructure/authentication.service';
 import 'rxjs/add/operator/catch';
-import { HttpErrorResponse } from '@angular/common/http/src/response';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -28,10 +28,11 @@ export class TokenInterceptor implements HttpInterceptor {
             // The response body may contain clues as to what went wrong,
             errorMsg = `Backend returned code ${err.status}, body was: ${err.error}`;
         }
+        console.error(errorMsg);
         if (err.status === 401) {
             this.injector.get(AuthenticationService).signOut();
+            return;
         }
-        console.error(errorMsg);
-        return Observable.throw(errorMsg);
+        return Observable.throw(err);
     }
 }
