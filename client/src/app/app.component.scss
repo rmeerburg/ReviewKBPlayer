@@ -14,6 +14,7 @@ mat-toolbar {
         display: flex;
         justify-content: center;
         min-width: 0px;
+        font-size: 18px;
     }
 }
 
@@ -21,11 +22,4 @@ mat-toolbar {
     position: absolute;
     width: 100%;
     height: calc(100vh - 56px); // full height minus the height of the toolbar
-}
-
-.hamburger {
-    outline: none;
-    padding: 6px;
-    padding-top: 10px;
-    padding-left: 12px;
 }

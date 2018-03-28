@@ -47,7 +47,7 @@ import { AuthenticationService } from './infrastructure/authentication.service';
 export class AppComponent implements OnInit {
   public canNavigateToParent: boolean = false;
 
-  constructor(private readonly router: Router, private readonly auth: AuthenticationService,) {
+  constructor(private readonly router: Router, public readonly auth: AuthenticationService,) {
   }
 
   // change the animation state

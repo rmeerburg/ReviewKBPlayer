@@ -1,8 +1,6 @@
 <mat-toolbar color="primary">
-    <button *ngIf="auth.isAuthenticated()" class="hamburger hamburger--arrowturn" type="button" [class.is-active]="canNavigateToParent" (click)="navClicked()">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
+    <button mat-icon-button *ngIf="auth.isAuthenticated()" type="button" (click)="navClicked()">
+        <mat-icon aria-label="back">{{canNavigateToParent ? 'arrow_back' : 'menu'}}</mat-icon>
     </button>
     <div class="toolbar-text">
         <span class="truncate">CKV Oranje Wit - TalentTrack</span>
