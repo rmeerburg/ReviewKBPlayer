@@ -48,9 +48,11 @@ export class PlayerComponent implements OnInit {
       { data: Array.from(Array(6).keys()).map(_ => Math.floor(Math.random() * Math.floor(5)) + 1), label: '2017', },
     ];
     this.route.params.subscribe(p => {
-      this.playerService.getPlayer(p['id']).subscribe(player => {
+      this.playerService.getPlayer(p['id']).subscribe(async player => {
         this.player = player;
         this.player.participations.reverse();
+        const categories = await this.ratingService.getReviewCategories(this.player);
+        categories.forEach(cat => this.radarChartLabels.push(cat.categoryName));
       }, (error: HttpErrorResponse) => {
         if (error.status === 404) {
           this.dialogService.show({ title: 'Speler niet gevonden', message: `Speler met registratie '${p['id']}' bestaat niet` }).subscribe(result => {
@@ -59,8 +61,6 @@ export class PlayerComponent implements OnInit {
         }
       });
     });
-    const categories = await this.ratingService.getReviewCategories();
-    categories.forEach(cat => this.radarChartLabels.push(cat.categoryName));
   }
 
   public setFallbackImage(event: any) {

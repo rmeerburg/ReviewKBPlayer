@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Globalization;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -28,57 +27,16 @@ namespace Server.Data
 
         public async Task EnsureSeeded(string seedFilesDirectory)
         {
-            if (Players.Any())
-                return;
+            var dataSeeder = new CsvDataImporter(this, seedFilesDirectory);
 
-            var matchPlayerRegex = new Regex(@"(?<name>.*?);(?<id>.*?);(?<gender>.*?);(?<dob>.*?);");
-            foreach (var player in (await File.ReadAllLinesAsync($"{seedFilesDirectory}\\players.csv")).Skip(1))
-            {
-                var match = matchPlayerRegex.Match(player);
-                Players.Add(new Player { Name = match.Groups["name"].Value, RegistrationId = match.Groups["id"].Value, Gender = match.Groups["gender"].Value == "M" ? Gender.Male : Gender.Female, Dob = DateTime.Parse(match.Groups["dob"].Value, CultureInfo.GetCultureInfo("nl-NL")) });
-            }
+            if (!this.Players.Any())
+                await dataSeeder.SeedPlayers();
 
-            var matchTeamRegex = new Regex(@"(?<playerId>.*?);(?<teamId>.*?);.*?");
-            var playerTeamSeasons = await File.ReadAllLinesAsync($"{seedFilesDirectory}\\teams_players_seasons.csv");
-            var seasonDescriptions = Regex.Matches(playerTeamSeasons.First(), @"(?<seasonId>\d+-\d+)").Select(m => m.Groups["seasonId"].Value).ToList();
-            foreach (var season in seasonDescriptions)
-                Seasons.Add(new Season { Description = season, });
+            if (!this.Levels.Any())
+                await dataSeeder.SeedCategoriesAndLevels();
 
-            int i = 0;
-            foreach (var teamLine in playerTeamSeasons.Skip(1))
-            {
-                var parts = teamLine.Split(";");
-                var player = Players.Local.FirstOrDefault(p => p.RegistrationId == parts[0]);
-
-                i = 0;
-                foreach (var teamName in parts.Skip(1))
-                {
-                    if (teamName == "Geen team")
-                    {
-                        i++;
-                        continue;
-                    }
-
-                    Team team = Teams.Local.FirstOrDefault(t => t.Name == teamName);
-                    if (team == null)
-                        Teams.Add(team = new Team { Name = teamName, });
-
-                    Participations.Add(new Participation { PlayerId = player.PlayerId, TeamId = team.TeamId, StartDate = DateTime.Today, SeasonId = Seasons.Local.First(s => s.Description == seasonDescriptions[i]).SeasonId });
-                    i++;
-                }
-            }
-
-            var levels = new string[] { "Slecht", "Zwak", "Gemiddeld", "Goed", "Uitmuntend", };
-            foreach (var reviewCategoryName in new [] { "Aanvallen", "Verdedigen", "Tactisch", "Technisch", "Fysiek", "Mentaal", })
-            {
-                var newCategory = new ReviewCategory { Name = reviewCategoryName };
-                ReviewCategories.Add(newCategory);
-                i = 1;
-                foreach (var lvl in levels)
-                {
-                    Levels.Add(new Level { Category = newCategory, ShortDescription = lvl, Description = lvl, Score = i++, });
-                }
-            }
+            if (!this.Participations.Any())
+                await dataSeeder.SeedParticipations();
 
             await this.SaveChangesAsync();
         }

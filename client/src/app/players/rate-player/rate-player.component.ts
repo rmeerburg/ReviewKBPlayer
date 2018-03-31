@@ -29,11 +29,11 @@ export class RatePlayerComponent implements OnInit {
   }
 
   public async ngOnInit() {
-    this.categories = await this.ratingService.getReviewCategories();
     this.review = await this.ratingService.createNewReview();
-
+    
     this.route.params.subscribe(params => {
-      this.playersService.getPlayer(params['id']).subscribe(player => {
+      this.playersService.getPlayer(params['id']).subscribe(async player => {
+        this.categories = await this.ratingService.getReviewCategories(player);
         this.player = player;
         this.review.participationId = player.participations[0].participationId;
       });
@@ -60,10 +60,12 @@ export class RatePlayerComponent implements OnInit {
   }
 
   public showInfoFor(lvl: Level) {
-    this.snackBar.open(`${lvl.description}: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`, "sluiten", { duration: 5000, });
+    this.snackBar.open(lvl.description, "sluiten", { duration: 5000, });
   }
 
   public setFallbackImage(event: any) {
-    event.target.src = `/assets/player-photos/fallback/unknown_avatar_${this.player.gender}.png`;
+    if(this.player) {
+      event.target.src = `/assets/player-photos/fallback/unknown_avatar_${this.player.gender}.png`;
+    }
   }
 }

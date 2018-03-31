@@ -23,8 +23,3 @@ namespace server
                 .Build();
     }
 }
-
-// todo
-// fix up player avatars
-// summarize reviews into radar per season
-// localization

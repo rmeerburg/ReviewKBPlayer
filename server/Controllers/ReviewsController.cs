@@ -35,7 +35,7 @@ namespace Server.Controllers
                 {
                     Id = levelGroup.Key.ReviewCategoryId,
                     CategoryName = levelGroup.Key.Name,
-                    Levels = levelGroup.Select(l => new CategoryLevel { LevelId = l.LevelId, ReviewCategoryId = l.ReviewCategoryId, Score = l.Score, Description = l.Description, ShortDescription = l.ShortDescription, })
+                    Levels = levelGroup.Select(l => new CategoryLevel { LevelId = l.LevelId, ReviewCategoryId = l.ReviewCategoryId, Score = l.Score, Description = l.Description, ShortDescription = l.ShortDescription, TeamCategory = l.TeamCategory, })
                 };
             }
         }
@@ -82,5 +82,6 @@ namespace Server.Controllers
         public int Score { get; set; }
         public string Description { get; set; }
         public string ShortDescription { get; set; }
+        public string TeamCategory { get; set; }
     }
 }

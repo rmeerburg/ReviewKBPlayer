@@ -39,46 +39,49 @@
     <button mat-raised-button color="primary" [disabled]="!canSubmit()" (click)="submitReview()">Opslaan</button>
   </div>
 </div> -->
-<button mat-button class="player-header-button">
-  <div class="review-header" [routerLink]="['/browse/players', player?.registrationId]">
-    <div class="image-background">
-      <img class="profile-picture" src="{{storageUrl}}/player-photos/small/{{player?.registrationId}}.jpg" (error)="setFallbackImage($event)" />
-    </div>
-    <span>{{player?.name}}</span>
-  </div>
-</button>
-<mat-vertical-stepper [linear]="true">
-  <mat-step *ngFor="let rating of review?.ratings">
-    <ng-template matStepLabel>{{getCategory(rating.categoryId).categoryName}}</ng-template>
-    <div class="rating-options">
-      <div *ngFor="let level of getCategory(rating.categoryId).levels" class="rating-button-container">
-        <button matStepperNext mat-raised-button class="rating-button" [class.selected]="level.levelId === rating.levelId" (click)="rate(level)">{{level.description}}</button>
-        <button mat-icon-button class="info-button" (click)="showInfoFor(level)">
-          <mat-icon>info_outline</mat-icon>
-        </button>
+<div *ngIf="player">
+  <button mat-button class="player-header-button">
+    <div class="review-header" [routerLink]="['/browse/players', player?.registrationId]">
+      <div class="image-background">
+        <img class="profile-picture" src="{{storageUrl}}/player-photos/small/{{player?.registrationId}}.jpg" (error)="setFallbackImage($event)"
+        />
       </div>
+      <span>{{player?.name}}</span>
     </div>
-  </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Klaar</ng-template>
-    <div class="done-container">
-      <mat-form-field class="notes">
-        <textarea [(ngModel)]="review && review.notes" matInput matTextareaAutosize placeholder="Voeg eventueel een notitie toe"></textarea>
-      </mat-form-field>
-      <div class="submit-review">
-        <button mat-raised-button color="primary" [disabled]="!canSubmit()" (click)="submitReview()">Opslaan</button>
+  </button>
+  <mat-vertical-stepper [linear]="true">
+    <mat-step *ngFor="let rating of review?.ratings">
+      <ng-template matStepLabel>{{getCategory(rating.categoryId).categoryName}}</ng-template>
+      <div class="rating-options">
+        <div *ngFor="let level of getCategory(rating.categoryId).levels" class="rating-button-container">
+          <button matStepperNext mat-raised-button class="rating-button" [class.selected]="level.levelId === rating.levelId" (click)="rate(level)"><div class="rating-text">{{level.shortDescription}}</div></button>
+          <button [disabled]="!level.description" mat-icon-button class="info-button" (click)="showInfoFor(level)">
+            <mat-icon>info_outline</mat-icon>
+          </button>
+        </div>
       </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Klaar</ng-template>
+      <div class="done-container">
+        <mat-form-field class="notes">
+          <textarea [(ngModel)]="review && review.notes" matInput matTextareaAutosize placeholder="Voeg eventueel een notitie toe"></textarea>
+        </mat-form-field>
+        <div class="submit-review">
+          <button mat-raised-button color="primary" [disabled]="!canSubmit()" (click)="submitReview()">Opslaan</button>
+        </div>
 
-    </div>
-    <!-- <button mat-button matStepperNext>
+      </div>
+      <!-- <button mat-button matStepperNext>
       <ng-container *ngIf="review?.notes">Volgende</ng-container>
       <ng-container *ngIf="!review?.notes">Overslaan</ng-container>
     </button> -->
-  </mat-step>
-  <!-- <mat-step>
+    </mat-step>
+    <!-- <mat-step>
     <ng-template matStepLabel>Klaar</ng-template>
     <button mat-button mat-raised-button color="primary">Opslaan</button> 
   </mat-step>-->
-</mat-vertical-stepper>
+  </mat-vertical-stepper>
+</div>
 
 <loader *ngIf="!player"></loader>

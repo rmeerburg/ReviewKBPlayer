@@ -14,5 +14,7 @@ namespace Server.Models
         public string Description { get; set; }
 
         public int Score { get; set; }
+
+        public string TeamCategory { get; set; }
     }
 }
