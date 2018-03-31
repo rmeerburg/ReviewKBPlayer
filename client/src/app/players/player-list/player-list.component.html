@@ -10,7 +10,7 @@
       </div>
 
       <mat-nav-list>
-        <mat-list-item *ngFor="let player of players" [routerLink]="['/browse/players', player.registrationId]" (click)="clearFilter()">
+        <mat-list-item *ngFor="let player of players" [routerLink]="['/browse/players', player.registrationId]">
           <div class="player-item-content">
             <div class="player-profile-name">
               <span>{{player.name}}</span>

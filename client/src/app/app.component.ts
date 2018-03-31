@@ -11,6 +11,7 @@ import {
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
 import { AuthenticationService } from './infrastructure/authentication.service';
+import { TitleService } from './services/title.service';
 
 @Component({
   selector: 'app-root',
@@ -47,7 +48,7 @@ import { AuthenticationService } from './infrastructure/authentication.service';
 export class AppComponent implements OnInit {
   public canNavigateToParent: boolean = false;
 
-  constructor(private readonly router: Router, public readonly auth: AuthenticationService,) {
+  constructor(private readonly router: Router, public readonly auth: AuthenticationService, public readonly titleService: TitleService) {
   }
 
   // change the animation state
@@ -56,6 +57,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.useDefaultTitle();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const navigationEndEvent = <NavigationEnd>event;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Player, PlayersService, Team, PlayerListModel } from 'app/services/players.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TitleService } from 'app/services/title.service';
 
 @Component({
   selector: 'app-player-list',
@@ -23,7 +24,7 @@ export class PlayerListComponent implements OnInit {
     0 : 'teams',
   }
 
-  constructor(private readonly playerService: PlayersService, private readonly route: ActivatedRoute, private readonly router: Router) {
+  constructor(private readonly playerService: PlayersService, private readonly route: ActivatedRoute, private readonly router: Router, private readonly titleService: TitleService) {
   }
 
   public async ngOnInit() {
@@ -31,6 +32,7 @@ export class PlayerListComponent implements OnInit {
       this.currentTabIndex = this.tabMapping[<string>params['what']];
     });
     this.playerService.getPlayers().subscribe(data => this.setPlayers(data));
+    this.titleService.useDefaultTitle();
   }
 
   public filter() {

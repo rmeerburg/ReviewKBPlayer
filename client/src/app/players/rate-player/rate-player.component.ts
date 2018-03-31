@@ -6,6 +6,7 @@ import { debug } from 'util';
 import { MatSnackBar } from '@angular/material';
 import { CacheInterceptor } from 'app/infrastructure/cache.interceptor';
 import { environment } from 'environments/environment';
+import { TitleService } from 'app/services/title.service';
 
 @Component({
   templateUrl: './rate-player.component.html',
@@ -25,7 +26,8 @@ export class RatePlayerComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute, 
     private readonly snackBar: MatSnackBar, 
-    private readonly cache: CacheInterceptor) {
+    private readonly cache: CacheInterceptor,
+    private readonly titleService: TitleService) {
   }
 
   public async ngOnInit() {
@@ -35,6 +37,7 @@ export class RatePlayerComponent implements OnInit {
       this.playersService.getPlayer(params['id']).subscribe(async player => {
         this.categories = await this.ratingService.getReviewCategories(player);
         this.player = player;
+        this.titleService.title = `Beoordeling: ${this.player.name}`;
         this.review.participationId = player.participations[0].participationId;
       });
     });

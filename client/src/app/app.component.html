@@ -3,7 +3,7 @@
         <mat-icon aria-label="back">{{canNavigateToParent ? 'arrow_back' : 'menu'}}</mat-icon>
     </button>
     <div class="toolbar-text">
-        <span class="truncate">CKV Oranje Wit - TalentTrack</span>
+        <span class="truncate">{{titleService.title}}</span>
     </div>
     <button *ngIf="auth.isAuthenticated()" mat-icon-button type="button" [matMenuTriggerFor]="more_menu">
         <mat-icon>account_circle</mat-icon>

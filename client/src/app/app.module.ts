@@ -15,6 +15,7 @@ import { RatePlayerComponent } from './players/rate-player/rate-player.component
 import { appRoutes } from './app-routing.module';
 import { PlayerComponent } from './players/player/player.component';
 import { RatingService } from './services/rating.service';
+import { TitleService } from './services/title.service';
 import { PlayersService } from './services/players.service';
 import { PlayerListComponent } from './players/player-list/player-list.component';
 import { LoaderComponent } from './common/loader/loader.component';
@@ -69,6 +70,7 @@ import { SimpleDialogService } from 'app/services/simple-dialog.service';
     MatIconRegistry, 
     IsAuthenticatedGuard, 
     AuthenticationService,
+    TitleService,
     CacheInterceptor,
     {
       provide: HTTP_INTERCEPTORS,
@@ -80,7 +82,6 @@ import { SimpleDialogService } from 'app/services/simple-dialog.service';
       useClass: TokenInterceptor,
       multi: true
     },
-    {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
   ],
   bootstrap: [AppComponent],
   entryComponents: [

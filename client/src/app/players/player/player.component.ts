@@ -7,6 +7,7 @@ import { PlayersService, Player } from 'app/services/players.service';
 import { SimpleDialogComponent } from '../../common/dialogs/simple/simple-dialog.component';
 import { SimpleDialogService } from '../../services/simple-dialog.service';
 import { environment } from 'environments/environment';
+import { TitleService } from 'app/services/title.service';
 
 @Component({
   selector: 'app-player',
@@ -40,7 +41,7 @@ export class PlayerComponent implements OnInit {
   ];
   public radarChartType: string = 'radar';
 
-  constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService, private readonly route: ActivatedRoute, private readonly dialogService: SimpleDialogService, private readonly router: Router) { }
+  constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService, private readonly route: ActivatedRoute, private readonly dialogService: SimpleDialogService, private readonly router: Router, private readonly titleService: TitleService) { }
 
   public async ngOnInit() {
     this.radarChartData = [
@@ -50,6 +51,7 @@ export class PlayerComponent implements OnInit {
     this.route.params.subscribe(p => {
       this.playerService.getPlayer(p['id']).subscribe(async player => {
         this.player = player;
+        this.titleService.title = player.name;
         this.player.participations.reverse();
         const categories = await this.ratingService.getReviewCategories(this.player);
         categories.forEach(cat => this.radarChartLabels.push(cat.categoryName));

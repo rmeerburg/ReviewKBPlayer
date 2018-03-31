@@ -12,6 +12,6 @@ export const appRoutes: Routes = [
     { path: 'browse/players/:id', component: PlayerComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'player', } },
     { path: 'browse/players/:id/photo', component: PlayerImageComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'player_image', } },
     { path: 'browse/players/:id/review', component: RatePlayerComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'review', } },
-    { path: '', redirectTo: '/browse/players', pathMatch: 'full' }
-    // { path: '**', component: PageNotFoundComponent }
+    { path: '', redirectTo: '/browse/players', pathMatch: 'full' },
+    { path: '**', redirectTo: '/browse/players' }
 ];
