@@ -16,3 +16,17 @@ html, body {
 .full-width-dialog .mat-dialog-container {
     padding: 0;
 }
+
+// setup a class that overrides some default styles for a mat-snackbar
+snack-bar-container.wider-snackbar {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    simple-snack-bar {
+        font-size: 13px;
+    }
+
+    .mat-simple-snackbar-action {
+        margin-left: 12px;
+    }
+}

@@ -60,7 +60,7 @@ export class RatePlayerComponent implements OnInit {
   }
 
   public showInfoFor(lvl: Level) {
-    this.snackBar.open(lvl.description, "sluiten", { duration: 5000, });
+    this.snackBar.open(lvl.description, 'sluiten', { duration: 5000, panelClass: 'wider-snackbar' });
   }
 
   public setFallbackImage(event: any) {
