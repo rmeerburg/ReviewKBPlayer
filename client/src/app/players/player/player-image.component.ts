@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'app-player-image',
-    template: `<img src="/assets/player_photos/large/{{playerId}}.jpg" />`,
+    template: `<img src="${environment.storageUrl}/player-photos/large/{{playerId}}.jpg" />`,
     styles: ['img { width: 100% }'],
 })
 export class PlayerImageComponent implements OnInit {

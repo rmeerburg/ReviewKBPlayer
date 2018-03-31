@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { debug } from 'util';
 import { MatSnackBar } from '@angular/material';
 import { CacheInterceptor } from 'app/infrastructure/cache.interceptor';
+import { environment } from 'environments/environment';
 
 @Component({
   templateUrl: './rate-player.component.html',
@@ -16,6 +17,7 @@ export class RatePlayerComponent implements OnInit {
   public categories: ReviewCategory[];
   public notes_expanded: boolean = false;
   public player: Player;
+  public storageUrl: string = environment.storageUrl;
 
   constructor(
     private readonly ratingService: RatingService, 
@@ -62,6 +64,6 @@ export class RatePlayerComponent implements OnInit {
   }
 
   public setFallbackImage(event: any) {
-    event.target.src = `/assets/player_photos/fallback/unknown_avatar_${this.player.gender}.png`;
+    event.target.src = `/assets/player-photos/fallback/unknown_avatar_${this.player.gender}.png`;
   }
 }

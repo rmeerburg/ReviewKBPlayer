@@ -6,6 +6,7 @@ import { RatingService } from 'app/services/rating.service';
 import { PlayersService, Player } from 'app/services/players.service';
 import { SimpleDialogComponent } from '../../common/dialogs/simple/simple-dialog.component';
 import { SimpleDialogService } from '../../services/simple-dialog.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-player',
@@ -14,6 +15,7 @@ import { SimpleDialogService } from '../../services/simple-dialog.service';
 })
 export class PlayerComponent implements OnInit {
   public player: Player;
+  public storageUrl: string = environment.storageUrl;
 
   public chartOptions = {
     maintainAspectRatio: false,
@@ -62,6 +64,6 @@ export class PlayerComponent implements OnInit {
   }
 
   public setFallbackImage(event: any) {
-    event.target.src = `/assets/player_photos/fallback/unknown_avatar_${this.player.gender}.png`;
+    event.target.src = `/assets/player-photos/fallback/unknown_avatar_${this.player.gender}.png`;
   }
 }

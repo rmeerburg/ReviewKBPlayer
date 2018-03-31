@@ -7,7 +7,7 @@
       </button>
 
       <div class="image-background" routerLink="photo">
-          <img class="profile-picture" src="/assets/player_photos/small/{{player?.registrationId}}.jpg" (error)="setFallbackImage($event)" />
+          <img class="profile-picture" src="{{storageUrl}}/player-photos/small/{{player?.registrationId}}.jpg" (error)="setFallbackImage($event)" />
       </div>
 
       <button mat-fab class="hidden-button">
