@@ -43,10 +43,14 @@ namespace Server.Controllers
         public IActionResult Get(string id)
         {
             var player = _context.Players
+                .Include(p => p.Participations)
                 .Include(p => p.Participations).ThenInclude(p => p.Team)
                 .Include(p => p.Participations).ThenInclude(p => p.Reviews).ThenInclude(r => r.SubmittedBy)
                 .Include(p => p.Participations).ThenInclude(p => p.Season)
                 .FirstOrDefault(p => p.RegistrationId == id);
+
+            // order participations by season so they naturally lead up to the latest participations. the startdate property for the participation should be used here but that data is not (yet) available
+            player.Participations = player.Participations.OrderBy(p => p.Season.StartDate).ToList();
 
             if(player != null)
                 return Ok(player);
