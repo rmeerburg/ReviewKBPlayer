@@ -47,37 +47,34 @@ namespace Server.Controllers
             return new OkObjectResult(jwt);
         }
 
-        [HttpPost("api/auth/users")]
-        [AllowAnonymous]
-        public async Task<IActionResult> NewUser([FromBody] CredentialsViewModel registration)
-        {
-            if (registration == null)
-                return BadRequest("no registration was passed");
+        // [HttpPost("api/auth/users")]
+        // [AllowAnonymous]
+        // public async Task<IActionResult> NewUser([FromBody] CredentialsViewModel registration)
+        // {
+        //     if (registration == null)
+        //         return BadRequest("no registration was passed");
 
-            var newUser = new ApplicationUser()
-            {
-                Email = registration.Email,
-                UserName = registration.Email,
-            };
+        //     var newUser = new ApplicationUser()
+        //     {
+        //         Email = registration.Email,
+        //         UserName = registration.Email,
+        //     };
 
-            var result = await _userManager.CreateAsync(newUser, registration.Password);
+        //     var result = await _userManager.CreateAsync(newUser, registration.Password);
 
-            if (!result.Succeeded)
-                return BadRequest($"Unable to create user: {string.Join(Environment.NewLine, result.Errors)}" );
+        //     if (!result.Succeeded)
+        //         return BadRequest($"Unable to create user: {string.Join(Environment.NewLine, result.Errors)}" );
 
-            // await _context.Customers.AddAsync(new Customer { IdentityId = userIdentity.Id, Location = model.Location });
-            // await _context.SaveChangesAsync();
-
-            return new OkObjectResult("Account created");
-        }
+        //     return new OkObjectResult("Account created");
+        // }
 
         private async Task<string> GenerateJwt(ClaimsIdentity identity)
         {
             var response = new
             {
-                id = identity.Claims.Single(c => c.Type == "id").Value,
+                id = identity.Claims.Single(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value,
                 auth_token = await _jwtFactory.GenerateEncodedToken(identity.Name, identity),
-                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
+                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds,
             };
 
             return JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });
@@ -91,13 +88,12 @@ namespace Server.Controllers
             // get the user to verifty
             var userToVerify = await _userManager.FindByNameAsync(userName);
 
-            if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
+            if (userToVerify == null) 
+                return await Task.FromResult<ClaimsIdentity>(null);
 
             // check the credentials
             if (await _userManager.CheckPasswordAsync(userToVerify, password))
-            {
-                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
-            }
+                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userToVerify.UserName, (await _userManager.GetRolesAsync(userToVerify)).ToArray()));
 
             // Credentials are invalid, or account doesn't exist
             return await Task.FromResult<ClaimsIdentity>(null);

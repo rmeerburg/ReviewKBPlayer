@@ -114,12 +114,6 @@ namespace server
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
             });
-
-            // // api user claim policy
-            // services.AddAuthorization(options =>
-            // {
-            //     options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -153,7 +147,21 @@ namespace server
                 var dbContext = scope.ServiceProvider.GetService<TalentTrackContext>();
                 await dbContext.Database.MigrateAsync();
                 await dbContext.EnsureSeeded(Configuration["SeedFilesDirectory"]);
+
+                await SeedRoles(scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(), scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>());
             }
+        }
+
+        private async Task SeedRoles(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        {
+            // var user = await userManager.FindByEmailAsync("foo@bar.com");
+            // await userManager.AddToRoleAsync(user, "tc");
+            if (await roleManager.Roles.AnyAsync())
+                return;
+                
+            var roles = new [] { "admin", "tc", "coach/scout", };
+            foreach(var role in roles)
+                await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
 }
