@@ -21,7 +21,10 @@ namespace Server.Controllers
         [HttpGet("api/players")]
         public async Task<IEnumerable<PlayerListModel>> Get()
         {
-            var players = await _context.Players.Include(p => p.Participations).ThenInclude(p => p.Team).ToListAsync();
+            var players = await _context.Players
+                .Include(p => p.Participations).ThenInclude(p => p.Team)
+                .Include(p => p.Participations).ThenInclude(p => p.Season)
+                .ToListAsync();
             var teams = await _context.Teams.ToListAsync();
 
             return players.Select(p =>
@@ -33,7 +36,7 @@ namespace Server.Controllers
                     PlayerId = p.PlayerId,
                 };
                 if(p.Participations.Any())
-                    model.CurrentTeam = teams.Find(t => t.TeamId == p.Participations.Last().TeamId).Name;
+                    model.CurrentTeam = teams.Find(t => t.TeamId == p.Participations.OrderBy(part => part.Season.StartDate).Last().TeamId).Name;
 
                 return model;
             });
