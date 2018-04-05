@@ -4,18 +4,37 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Server.Models;
 
 namespace Server.Data
 {
-    class CsvDataImporter
+    class DataSeeder
     {
+        private readonly IConfiguration _config;
         private readonly string _seedFilesDirectory;
         private readonly TalentTrackContext _dbContext;
-        public CsvDataImporter(TalentTrackContext dbContext, string seedFilesDirectory)
+        public DataSeeder(TalentTrackContext dbContext, IConfiguration config)
         {
-            _seedFilesDirectory = seedFilesDirectory;
+            _config = config;
+            _seedFilesDirectory = _config["SeedFilesDirectory"];
             _dbContext = dbContext;
+        }
+
+        public async Task SeedAllMissingData()
+        {
+            if (!_dbContext.Players.Any())
+                await SeedPlayers();
+
+            if (!_dbContext.Levels.Any())
+                await SeedCategoriesAndLevels();
+
+            if (!_dbContext.Participations.Any())
+                await SeedParticipations();
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task SeedCategoriesAndLevels()
@@ -75,6 +94,26 @@ namespace Server.Data
                     i++;
                 }
             }
+        }
+
+        public async Task SeedUsersAndRoles(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        {
+            var rootUser = await userManager.FindByIdAsync("root");
+            if (rootUser != null)
+                return;
+
+            rootUser = new ApplicationUser { Id = "root", UserName = "root_user" };
+
+            var creationResult = await userManager.CreateAsync(rootUser, _config["RootUserInitialPassword"]);
+
+            if (! await roleManager.Roles.AnyAsync())
+            {
+                var roles = new[] { "admin", "tc", "coach/scout", "root" };
+                foreach (var role in roles)
+                    await roleManager.CreateAsync(new IdentityRole(role));
+            }
+
+            await userManager.AddToRolesAsync(rootUser, new [] { "root", "admin", });
         }
     }
 }

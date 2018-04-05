@@ -24,21 +24,5 @@ namespace Server.Data
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Participation> Participations { get; set; }
         public DbSet<ReviewCategory> ReviewCategories { get; set; }
-
-        public async Task EnsureSeeded(string seedFilesDirectory)
-        {
-            var dataSeeder = new CsvDataImporter(this, seedFilesDirectory);
-
-            if (!this.Players.Any())
-                await dataSeeder.SeedPlayers();
-
-            if (!this.Levels.Any())
-                await dataSeeder.SeedCategoriesAndLevels();
-
-            if (!this.Participations.Any())
-                await dataSeeder.SeedParticipations();
-
-            await this.SaveChangesAsync();
-        }
     }
 }

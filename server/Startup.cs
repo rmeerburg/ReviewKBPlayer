@@ -146,22 +146,11 @@ namespace server
             {
                 var dbContext = scope.ServiceProvider.GetService<TalentTrackContext>();
                 await dbContext.Database.MigrateAsync();
-                await dbContext.EnsureSeeded(Configuration["SeedFilesDirectory"]);
 
-                await SeedRoles(scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(), scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>());
+                var seeder = new DataSeeder(dbContext, Configuration);
+                await seeder.SeedAllMissingData();
+                await seeder.SeedUsersAndRoles(scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(), scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>());
             }
-        }
-
-        private async Task SeedRoles(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
-        {
-            // var user = await userManager.FindByEmailAsync("foo@bar.com");
-            // await userManager.AddToRoleAsync(user, "tc");
-            if (await roleManager.Roles.AnyAsync())
-                return;
-                
-            var roles = new [] { "admin", "tc", "coach/scout", };
-            foreach(var role in roles)
-                await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
 }
