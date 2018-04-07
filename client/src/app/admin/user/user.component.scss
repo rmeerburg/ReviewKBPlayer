@@ -1,0 +1,18 @@
+.view-container {
+    margin: 16px;
+}
+
+.user-name, .user-roles, .user-email, .user-state {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    mat-icon {
+        color: grey;
+        margin-right: 32px;
+    }
+}

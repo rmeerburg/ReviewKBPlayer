@@ -1,0 +1,32 @@
+<loader *ngIf="!user"></loader>
+
+<div *ngIf="user" class="view-container">
+  <div class="user-data">
+    <div class="user-email">
+      <mat-icon>email</mat-icon>
+      <mat-form-field>
+        <input type="email" matInput required [disabled]="!user.isNew" placeholder="Email" [(ngModel)]="user.email" (change)="onChange()">
+      </mat-form-field>
+    </div>
+
+    <div class="user-name">
+      <mat-icon>person</mat-icon>
+      <mat-form-field>
+        <input matInput placeholder="Naam" [disabled]="!user.canChange || user.isNew" [(ngModel)]="user.name" (change)="onChange()">
+      </mat-form-field>
+    </div>
+
+    <div class="user-roles">
+      <mat-icon>supervisor_account</mat-icon>
+      <mat-form-field>
+        <mat-select placeholder="Rol" [(ngModel)]="user.roles" [disabled]="!user.canChange || user.isNew" multiple (change)="onChange()">
+          <mat-option *ngFor="let role of roles" [value]="role">{{role}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="user-state">
+      <mat-icon>label</mat-icon>
+      <mat-checkbox [(ngModel)]="user.isActive" [align]="start" [disabled]="!user.canChange || user.isNew" class="user-active">Actief</mat-checkbox>
+    </div>
+  </div>
+</div>

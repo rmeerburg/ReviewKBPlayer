@@ -1,0 +1,9 @@
+<mat-nav-list>
+  <mat-list-item *ngFor="let user of users" [routerLink]="['/admin/users', user.email]">
+    <span>{{user.name}}</span>
+  </mat-list-item>
+</mat-nav-list>
+
+<a mat-fab routerLink="new" class="add-user-fab" color="primary">
+    <mat-icon aria-label="Create new user">add</mat-icon>
+</a>

@@ -102,7 +102,7 @@ namespace Server.Data
             if (rootUser != null)
                 return;
 
-            rootUser = new ApplicationUser { Id = "root", UserName = "root_user" };
+            rootUser = new ApplicationUser { Id = "root", UserName = "root_user", Email = "root@talenttrack" };
 
             var creationResult = await userManager.CreateAsync(rootUser, _config["RootUserInitialPassword"]);
 

@@ -29,6 +29,10 @@ import { CustomReuseStrategy } from 'app/infrastructure/reuse-strategy';
 import { PlayerImageComponent } from 'app/players/player/player-image.component';
 import { SimpleDialogComponent } from './common/dialogs/simple/simple-dialog.component';
 import { SimpleDialogService } from 'app/services/simple-dialog.service';
+import { UsersComponent } from './admin/users/users.component';
+import { RoleGuard } from 'app/infrastructure/role.guard';
+import { UserService } from 'app/services/user.service';
+import { CommonModule } from 'app/common/common.module';
 
 @NgModule({
   declarations: [
@@ -38,10 +42,9 @@ import { SimpleDialogService } from 'app/services/simple-dialog.service';
     PlayerComponent,
     PlayerImageComponent,
     PlayerListComponent,
-    LoaderComponent,
-    SimpleDialogComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production, }),
@@ -68,7 +71,8 @@ import { SimpleDialogService } from 'app/services/simple-dialog.service';
     PlayersService, 
     SimpleDialogService,
     MatIconRegistry, 
-    IsAuthenticatedGuard, 
+    IsAuthenticatedGuard,
+    RoleGuard,
     AuthenticationService,
     TitleService,
     CacheInterceptor,

@@ -48,7 +48,7 @@ import { TitleService } from './services/title.service';
 export class AppComponent implements OnInit {
   public canNavigateToParent: boolean = false;
 
-  constructor(private readonly router: Router, public readonly auth: AuthenticationService, public readonly titleService: TitleService) {
+  constructor(private readonly router: Router, public readonly auth: AuthenticationService, public readonly titleService: TitleService, private readonly route: ActivatedRoute) {
   }
 
   // change the animation state
@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
   }
 
   public navClicked() {
-    this.router.navigate(['../'], { relativeTo: this.router.routerState.root.firstChild, });
+    window.history.back();
   }
 
   public signOut() {
