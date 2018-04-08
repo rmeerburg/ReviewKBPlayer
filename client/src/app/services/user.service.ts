@@ -32,7 +32,7 @@ export class User {
   }
   canChange: boolean = true;
   isNew: boolean;
-  isActive: boolean = true;
+  isActive: boolean;
   name: string;
   email: string;
   roles: string[];

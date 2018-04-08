@@ -33,7 +33,7 @@ namespace Server.Controllers
             var results = new List<object>();
 
             foreach (var user in allUsers)
-                results.Add(new User { Name = user.UserName, Email = user.Email, Roles = await _userManager.GetRolesAsync(user), });
+                results.Add(new User { Name = user.DisplayName, Email = user.Email, Roles = await _userManager.GetRolesAsync(user), });
             return Ok(results);
         }
 
@@ -44,7 +44,7 @@ namespace Server.Controllers
             var roles = await _userManager.GetRolesAsync(user);
             var coaches = _context.TeamCoaches.Where(tc => tc.UserId == user.Id && tc.EndDate == null || tc.EndDate > DateTime.Now);
 
-            return Ok(new User { Name = user.UserName, Email = user.Email, Roles = roles, CanChange = user.Email != "root@talenttrack", Teams = coaches.Select(tc => tc.TeamId), });
+            return Ok(new User { Name = user.DisplayName, Email = user.Email, Roles = roles, CanChange = user.Email != "root@talenttrack", Teams = coaches.Select(tc => tc.TeamId), IsActive = user.IsActive });
         }
 
         [HttpPut("api/users/{email}")]
@@ -54,7 +54,8 @@ namespace Server.Controllers
                 return BadRequest("the root user cannot be changed");
 
             var currentUser = await _userManager.FindByEmailAsync(email);
-            currentUser.UserName = updatedUser.Name;
+            currentUser.DisplayName = updatedUser.Name;
+            currentUser.IsActive = updatedUser.IsActive;
 
             var updateResult = await _userManager.UpdateAsync(currentUser);
             if (!updateResult.Succeeded)
@@ -87,7 +88,7 @@ namespace Server.Controllers
         {
             if (string.IsNullOrWhiteSpace(email) || user.Roles.Any(r => r == "root"))
                 return BadRequest();
-            var newUser = new ApplicationUser { Email = email, UserName = user.Name ?? user.Email };
+            var newUser = new ApplicationUser { Email = email, UserName = user.Name ?? user.Email, DisplayName = user.Name, };
             var creationResult = await _userManager.CreateAsync(newUser, "root");
             if (!creationResult.Succeeded)
                 return BadRequest(creationResult.Errors);
@@ -105,11 +106,11 @@ namespace Server.Controllers
         }
 
         public bool CanChange { get; set; }
+        public bool IsActive { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public IEnumerable<string> Roles { get; set; }
         public IEnumerable<Guid> Teams { get; set; }
         public IEnumerable<string> Scouts { get; set; }
-        
     }
 }

@@ -115,6 +115,19 @@ namespace server
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
+
+                configureOptions.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = async context =>
+                    {
+                        var dbContext = context.HttpContext.RequestServices.GetService<TalentTrackContext>();
+                        var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == context.Principal.Identity.Name);
+                        if (!user.IsActive)
+                            context.Fail("user is blocked");
+                        else
+                            context.Success();
+                    }
+                };
             });
         }
 

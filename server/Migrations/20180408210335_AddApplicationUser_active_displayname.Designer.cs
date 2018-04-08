@@ -12,9 +12,10 @@ using System;
 namespace server.Migrations
 {
     [DbContext(typeof(TalentTrackContext))]
-    partial class TalentTrackContextModelSnapshot : ModelSnapshot
+    [Migration("20180408210335_AddApplicationUser_active_displayname")]
+    partial class AddApplicationUser_active_displayname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

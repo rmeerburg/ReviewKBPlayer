@@ -44,6 +44,6 @@
 
   <div class="user-data">
     <mat-icon>label</mat-icon>
-    <mat-checkbox [(ngModel)]="user.isActive" [align]="start" [disabled]="!user.canChange || user.isNew" class="user-active">Actief</mat-checkbox>
+    <mat-checkbox [(ngModel)]="user.isActive" [align]="start" [disabled]="!user.canChange || user.isNew" class="user-active" (change)="onChange()">Actief</mat-checkbox>
   </div>
 </div>
