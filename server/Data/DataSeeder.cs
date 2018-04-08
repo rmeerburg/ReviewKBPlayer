@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Server.Models;
+using Server.Services;
 
 namespace Server.Data
 {
@@ -16,11 +17,13 @@ namespace Server.Data
         private readonly IConfiguration _config;
         private readonly string _seedFilesDirectory;
         private readonly TalentTrackContext _dbContext;
-        public DataSeeder(TalentTrackContext dbContext, IConfiguration config)
+        private readonly ParticipationsService _participationsService;
+        public DataSeeder(TalentTrackContext dbContext, IConfiguration config, ParticipationsService participationsService)
         {
             _config = config;
             _seedFilesDirectory = _config["SeedFilesDirectory"];
             _dbContext = dbContext;
+            _participationsService = participationsService;
         }
 
         public async Task SeedAllMissingData()
@@ -68,8 +71,11 @@ namespace Server.Data
             var matchTeamRegex = new Regex(@"(?<playerId>.*?);(?<teamId>.*?);.*?");
             var playerTeamSeasons = await File.ReadAllLinesAsync($"{_seedFilesDirectory}\\players2.csv");
             var seasonDescriptions = Regex.Matches(playerTeamSeasons.First(), @"(?<seasonId>\d+-\d+)").Select(m => m.Groups["seasonId"].Value).ToList();
-            foreach (var season in seasonDescriptions)
-                _dbContext.Seasons.Add(new Season { Description = season, StartDate = new DateTime(int.Parse($"20{season.Substring(0, 2)}"), 1, 1), EndDate = new DateTime(int.Parse($"20{season.Substring(0, 2)}"), 12, 31), });
+            var seasons = seasonDescriptions.Select(season => new Season { Description = season, StartDate = new DateTime(int.Parse($"20{season.Substring(0, 2)}"), 1, 1), EndDate = new DateTime(int.Parse($"20{season.Substring(0, 2)}"), 12, 31), }).ToList();
+            seasons.OrderByDescending(s => s.StartDate).First().IsActive = true;
+
+            foreach (var season in seasons)
+                _dbContext.Seasons.Add(season);
 
             int i = 0;
             foreach (var teamLine in playerTeamSeasons.Skip(1))
@@ -90,7 +96,7 @@ namespace Server.Data
                     if (team == null)
                         _dbContext.Teams.Add(team = new Team { Name = teamName, });
 
-                    _dbContext.Participations.Add(new Participation { PlayerId = player.PlayerId, TeamId = team.TeamId, StartDate = DateTime.Today, SeasonId = _dbContext.Seasons.Local.First(s => s.Description == seasonDescriptions[i]).SeasonId });
+                    await _participationsService.AddParticipation(player.PlayerId, team.TeamId, _dbContext.Seasons.Local.First(s => s.Description == seasonDescriptions[i]).SeasonId);
                     i++;
                 }
             }

@@ -1,8 +1,9 @@
 .view-container {
-    margin: 16px;
+    margin: 32px;
+    margin-right: 48px;
 }
 
-.user-name, .user-roles, .user-email, .user-state {
+.user-data {
     display: flex;
     align-items: center;
     margin: 8px 0;

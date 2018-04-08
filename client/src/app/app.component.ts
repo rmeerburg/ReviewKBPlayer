@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
 
   // change the animation state
   public getRouteAnimation(outlet) {
-    return outlet.activatedRouteData.animation
+    return outlet.activatedRouteData.animation;
   }
 
   public ngOnInit() {

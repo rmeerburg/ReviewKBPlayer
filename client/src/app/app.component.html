@@ -9,6 +9,10 @@
         <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #more_menu="matMenu">
+        <button mat-menu-item routerLink="admin" *ngIf="auth.user?.roles.indexOf('admin') > -1">
+            <mat-icon>settings</mat-icon>
+            <span>Beheer</span>
+        </button>
         <button mat-menu-item (click)="signOut()">
             <mat-icon>exit_to_app</mat-icon>
             <span>Uitloggen</span>

@@ -93,7 +93,7 @@ namespace Server.Controllers
 
             // check the credentials
             if (await _userManager.CheckPasswordAsync(userToVerify, password))
-                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userToVerify.UserName, (await _userManager.GetRolesAsync(userToVerify)).ToArray()));
+                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userToVerify.Email, (await _userManager.GetRolesAsync(userToVerify)).ToArray()));
 
             // Credentials are invalid, or account doesn't exist
             return null;

@@ -13,8 +13,8 @@ namespace Server.Infrastructure.Authentication
 {
     public interface IJwtFactory
     {
-        Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity);
-        ClaimsIdentity GenerateClaimsIdentity(string userName, params string[] roles);
+        Task<string> GenerateEncodedToken(string userId, ClaimsIdentity identity);
+        ClaimsIdentity GenerateClaimsIdentity(string userId, params string[] roles);
     }
 
     public class JwtFactory : IJwtFactory
@@ -27,11 +27,12 @@ namespace Server.Infrastructure.Authentication
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
-        public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
+        public async Task<string> GenerateEncodedToken(string userId, ClaimsIdentity identity)
         {
             IEnumerable<Claim> claims = new[]
             {
-                 new Claim(JwtRegisteredClaimNames.Sub, userName),
+                 new Claim(JwtRegisteredClaimNames.Sub, userId),
+                 new Claim(JwtRegisteredClaimNames.UniqueName, userId),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
             };
@@ -52,7 +53,7 @@ namespace Server.Infrastructure.Authentication
             return encodedJwt;
         }
 
-        public ClaimsIdentity GenerateClaimsIdentity(string userName, params string[] roles) => new ClaimsIdentity(new GenericIdentity(userName, "token"), roles.Select(r => new Claim(ClaimTypes.Role, r)));
+        public ClaimsIdentity GenerateClaimsIdentity(string userId, params string[] roles) => new ClaimsIdentity(new GenericIdentity(userId, "token"), roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
         /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
         private static long ToUnixEpochDate(DateTime date)

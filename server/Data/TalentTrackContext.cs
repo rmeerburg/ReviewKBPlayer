@@ -24,5 +24,6 @@ namespace Server.Data
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Participation> Participations { get; set; }
         public DbSet<ReviewCategory> ReviewCategories { get; set; }
+        public DbSet<TeamCoach> TeamCoaches { get; set; }
     }
 }

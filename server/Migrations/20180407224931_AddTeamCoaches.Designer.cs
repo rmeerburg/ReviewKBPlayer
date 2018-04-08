@@ -12,9 +12,10 @@ using System;
 namespace server.Migrations
 {
     [DbContext(typeof(TalentTrackContext))]
-    partial class TalentTrackContextModelSnapshot : ModelSnapshot
+    [Migration("20180407224931_AddTeamCoaches")]
+    partial class AddTeamCoaches
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -308,8 +309,6 @@ namespace server.Migrations
                     b.Property<string>("Description");
 
                     b.Property<DateTime>("EndDate");
-
-                    b.Property<bool>("IsActive");
 
                     b.Property<DateTime>("StartDate");
 

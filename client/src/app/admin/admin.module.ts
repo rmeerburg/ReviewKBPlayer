@@ -8,6 +8,7 @@ import { MatListModule, MatButtonModule, MatIconModule, MatInputModule, MatSelec
 import { UserComponent } from './user/user.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from 'app/common/common.module';
+import { TeamsService } from 'app/services/teams.service';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { CommonModule } from 'app/common/common.module';
     UserComponent
   ],
   providers: [
-    UserService
+    UserService,
+    TeamsService,
   ]
 })
 export class AdminModule { }

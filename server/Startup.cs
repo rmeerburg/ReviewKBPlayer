@@ -21,6 +21,7 @@ using Server.Data;
 using Server.Infrastructure.Authentication;
 using Server.Models;
 using Server.Models.Authentication;
+using Server.Services;
 
 namespace server
 {
@@ -41,6 +42,7 @@ namespace server
             services.AddSingleton<IJwtFactory, JwtFactory>();
             services.AddSingleton<JwtIssuerOptions>();
             services.AddSingleton<IConfiguration>(this.Configuration);
+            services.AddTransient<IParticipationsService, ParticipationsService>();
 
             services.AddMvc(options =>
             {
@@ -147,7 +149,7 @@ namespace server
                 var dbContext = scope.ServiceProvider.GetService<TalentTrackContext>();
                 await dbContext.Database.MigrateAsync();
 
-                var seeder = new DataSeeder(dbContext, Configuration);
+                var seeder = new DataSeeder(dbContext, Configuration, new ParticipationsService(dbContext));
                 await seeder.SeedAllMissingData();
                 await seeder.SeedUsersAndRoles(scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(), scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>());
             }

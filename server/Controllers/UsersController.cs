@@ -42,12 +42,13 @@ namespace Server.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             var roles = await _userManager.GetRolesAsync(user);
+            var coaches = _context.TeamCoaches.Where(tc => tc.UserId == user.Id && tc.EndDate == null || tc.EndDate > DateTime.Now);
 
-            return Ok(new User { Name = user.UserName, Email = user.Email, Roles = roles, CanChange = user.Email != "root@talenttrack", });
+            return Ok(new User { Name = user.UserName, Email = user.Email, Roles = roles, CanChange = user.Email != "root@talenttrack", Teams = coaches.Select(tc => tc.TeamId), });
         }
 
         [HttpPut("api/users/{email}")]
-        public async Task<IActionResult> Patch(string email, [FromBody] User updatedUser)
+        public async Task<IActionResult> Put(string email, [FromBody] User updatedUser)
         {
             if (email == "root@talenttrack")
                 return BadRequest("the root user cannot be changed");
@@ -62,6 +63,21 @@ namespace Server.Controllers
             var currentRoles = await _userManager.GetRolesAsync(currentUser);
             await _userManager.AddToRolesAsync(currentUser, updatedUser.Roles.Except(currentRoles));
             await _userManager.RemoveFromRolesAsync(currentUser, currentRoles.Except(updatedUser.Roles));
+
+            var currentTeams = _context.TeamCoaches.Where(tc => tc.UserId == currentUser.Id);
+            var newTeams = updatedUser.Teams.Except(currentTeams.Select(t => t.TeamId));
+            var removedTeams = currentTeams.Select(t => t.TeamId).Except(updatedUser.Teams);
+
+            foreach (var team in newTeams)
+                _context.TeamCoaches.Add(new TeamCoach { UserId = currentUser.Id, TeamId = team, });
+
+            foreach (var team in removedTeams)
+            {
+                var removedTeamCoach = await _context.TeamCoaches.FirstOrDefaultAsync(tc => tc.TeamId == team);
+                removedTeamCoach.EndDate = DateTime.Now;
+            }
+
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
@@ -81,9 +97,19 @@ namespace Server.Controllers
 
     public class User
     {
+        public User()
+        {
+            this.Roles = Enumerable.Empty<string>();
+            this.Teams = Enumerable.Empty<Guid>();
+            this.Scouts = Enumerable.Empty<string>();
+        }
+
         public bool CanChange { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public IEnumerable<string> Roles { get; set; }
+        public IEnumerable<Guid> Teams { get; set; }
+        public IEnumerable<string> Scouts { get; set; }
+        
     }
 }
