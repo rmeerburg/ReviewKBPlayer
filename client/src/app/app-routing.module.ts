@@ -7,6 +7,7 @@ import { LoginComponent } from 'app/auth/login.component';
 import { PlayerImageComponent } from './players/player/player-image.component';
 import { UsersComponent } from './admin/users/users.component';
 import { RoleGuard } from 'app/infrastructure/role.guard';
+import { ParticipationComponent } from './participations/participation/participation.component';
 
 export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, },
@@ -15,6 +16,7 @@ export const appRoutes: Routes = [
     { path: 'browse/players/:id', component: PlayerComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'player', } },
     { path: 'browse/players/:id/photo', component: PlayerImageComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'player_image', } },
     { path: 'browse/players/:id/review', component: RatePlayerComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'review', } },
+    { path: 'browse/participations/:operation/:id', component: ParticipationComponent, canActivate: [IsAuthenticatedGuard], data: { animation: 'participation', } },
     { path: '', redirectTo: '/browse/players', pathMatch: 'full' },
     { path: '**', redirectTo: '/browse/players' }
 ];

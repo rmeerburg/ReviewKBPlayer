@@ -59,7 +59,7 @@ namespace Server.Data
         public async Task SeedPlayers()
         {
             var matchPlayerRegex = new Regex(@"(?<name>.*?);(?<id>.*?);(?<dob>.*?);(?<gender>.*?);");
-            foreach (var player in (await File.ReadAllLinesAsync($"{_seedFilesDirectory}\\players2.csv")).Skip(1))
+            foreach (var player in (await File.ReadAllLinesAsync($"{_seedFilesDirectory}\\players.csv")).Skip(1))
             {
                 var match = matchPlayerRegex.Match(player);
                 _dbContext.Players.Add(new Player { Name = match.Groups["name"].Value, RegistrationId = match.Groups["id"].Value, Gender = match.Groups["gender"].Value == "M" ? Gender.Male : Gender.Female, Dob = DateTime.Parse(match.Groups["dob"].Value, CultureInfo.GetCultureInfo("nl-NL")) });
@@ -69,7 +69,7 @@ namespace Server.Data
         public async Task SeedParticipations()
         {
             var matchTeamRegex = new Regex(@"(?<playerId>.*?);(?<teamId>.*?);.*?");
-            var playerTeamSeasons = await File.ReadAllLinesAsync($"{_seedFilesDirectory}\\players2.csv");
+            var playerTeamSeasons = await File.ReadAllLinesAsync($"{_seedFilesDirectory}\\players.csv");
             var seasonDescriptions = Regex.Matches(playerTeamSeasons.First(), @"(?<seasonId>\d+-\d+)").Select(m => m.Groups["seasonId"].Value).ToList();
             var seasons = seasonDescriptions.Select(season => new Season { Description = season, StartDate = new DateTime(int.Parse($"20{season.Substring(0, 2)}"), 1, 1), EndDate = new DateTime(int.Parse($"20{season.Substring(0, 2)}"), 12, 31), }).ToList();
             seasons.OrderByDescending(s => s.StartDate).First().IsActive = true;

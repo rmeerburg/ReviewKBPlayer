@@ -8,6 +8,7 @@ import { SimpleDialogComponent } from '../../common/dialogs/simple/simple-dialog
 import { SimpleDialogService } from '../../services/simple-dialog.service';
 import { environment } from 'environments/environment';
 import { TitleService } from 'app/services/title.service';
+import { AuthenticationService } from 'app/infrastructure/authentication.service';
 
 @Component({
   selector: 'app-player',
@@ -41,7 +42,15 @@ export class PlayerComponent implements OnInit {
   ];
   public radarChartType: string = 'radar';
 
-  constructor(private readonly http: HttpClient, private readonly ratingService: RatingService, private readonly playerService: PlayersService, private readonly route: ActivatedRoute, private readonly dialogService: SimpleDialogService, private readonly router: Router, private readonly titleService: TitleService) { }
+  constructor(
+    private readonly ratingService: RatingService, 
+    private readonly playerService: PlayersService, 
+    private readonly route: ActivatedRoute, 
+    private readonly dialogService: SimpleDialogService, 
+    private readonly router: Router, 
+    private readonly titleService: TitleService,
+    private readonly auth: AuthenticationService)
+  { }
 
   public async ngOnInit() {
     this.radarChartData = [
@@ -67,5 +76,9 @@ export class PlayerComponent implements OnInit {
 
   public setFallbackImage(event: any) {
     event.target.src = `/assets/player-photos/fallback/unknown_avatar_${this.player.gender}.png`;
+  }
+
+  public addParticipation() {
+    this.router.navigate([`/browse/participations/new/${this.player.registrationId}`]);
   }
 }

@@ -92,6 +92,10 @@
               padding-bottom: 16px;
               border-bottom: 1px solid #ddd;
 
+              .add-participation-container {
+                  margin-left: -16px;
+              }
+
               .event {
                   display: flex;
                   flex-direction: column;
@@ -151,4 +155,10 @@
               }
           }
       }
+}
+
+.player-dob-picker {
+    display: flex;
+    align-items: center;
+    margin-right: -12px;
 }

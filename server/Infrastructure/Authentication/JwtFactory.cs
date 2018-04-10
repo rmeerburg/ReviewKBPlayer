@@ -48,9 +48,7 @@ namespace Server.Infrastructure.Authentication
                 expires: _jwtOptions.Expiration,
                 signingCredentials: _jwtOptions.SigningCredentials);
 
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return encodedJwt;
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
         public ClaimsIdentity GenerateClaimsIdentity(string userId, params string[] roles) => new ClaimsIdentity(new GenericIdentity(userId, "token"), roles.Select(r => new Claim(ClaimTypes.Role, r)));

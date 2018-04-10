@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, MatStepperModule, MatSnackBarModule, MatMenuModule, MatDialogModule, } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatTabsModule, MatListModule, MatExpansionModule, MatInputModule, MatIconModule, MatIconRegistry, MatStepperModule, MatSnackBarModule, MatMenuModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule, } from '@angular/material';
 import { MomentModule } from 'angular2-moment';
 import { ChartsModule } from 'ng2-charts';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -33,6 +33,7 @@ import { UsersComponent } from './admin/users/users.component';
 import { RoleGuard } from 'app/infrastructure/role.guard';
 import { UserService } from 'app/services/user.service';
 import { CommonModule } from 'app/common/common.module';
+import { ParticipationComponent } from './participations/participation/participation.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CommonModule } from 'app/common/common.module';
     PlayerComponent,
     PlayerImageComponent,
     PlayerListComponent,
+    ParticipationComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +63,8 @@ import { CommonModule } from 'app/common/common.module';
     MatSnackBarModule,
     MatMenuModule,
     MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     FormsModule,
     HttpClientModule,
     ChartsModule,

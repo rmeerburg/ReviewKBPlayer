@@ -7,7 +7,7 @@ import { UserService, User } from 'app/services/user.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  private users: User[];
+  public users: User[];
 
   constructor(private readonly userService: UserService) {
   }

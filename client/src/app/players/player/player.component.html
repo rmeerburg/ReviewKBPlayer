@@ -24,6 +24,11 @@
       <mat-tab label="Over">
         <div class="player-details-tab">
           <div class="player-history" *ngIf="player?.participations.length">
+            <div class="add-participation-container">
+              <button mat-icon-button (click)="addParticipation()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
             <ng-container *ngFor="let participation of player.participations; let first = first; let last = last">
               <div class="event">
                 <span class="team">{{participation.team.name}}</span>
@@ -37,13 +42,15 @@
           <div class="player-details">
             <div class="reviews-title">Speler</div>
             <div class="review">
-              <span>Team</span>
-              <span *ngIf="player?.participations.length">{{player?.participations[0].team.name}}</span>
-              <span class="no-team" *ngIf="!player?.participations.length">Geen team</span>
-            </div>
-            <div class="review">
               <span>Geboortedatum</span>
-              <span>{{player?.dob | amDateFormat:'LL'}}</span>
+              <div class="player-dob-picker">
+                <span>{{player?.dob | amDateFormat:'LL'}}</span>
+                <ng-container *ngIf="auth.user.roles.indexOf('admin') > -1">
+                  <input type="hidden" [matDatepicker]="picker" [(ngModel)]="player.dob">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker touchUi="true" #picker></mat-datepicker>
+                </ng-container>
+              </div>
             </div>
             <div class="review">
               <span>Registratie</span>
